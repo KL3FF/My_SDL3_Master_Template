@@ -75,6 +75,7 @@
         "mutex": "cpp",
         "ranges": "cpp",
         "sstream": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "*.in": "cpp"
     }
 }

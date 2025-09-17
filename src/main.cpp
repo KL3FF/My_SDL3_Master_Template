@@ -5,8 +5,12 @@
 
 int main(int argc, char *argv[])
 {
+
+    
     WindowHandler window;
     SDL_Event event;
+
+    std::cout << PROJECT_NAME << "\n";
 
     std::cout << "Press ESC to quit\n";
 

@@ -8,7 +8,7 @@ WindowHandler::WindowHandler()
 
     //! hier muss ich die sachen laden 
 
-
+    
   
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(title, screenWidth, screenheight, flags);

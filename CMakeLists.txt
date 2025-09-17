@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.31.6)
 
-project(CmakeBaseProjekt VERSION 1.0.0 LANGUAGES C CXX)
-
 # Name of the executable
 set(MY_EXE_NAME "Executable")
+project(${MY_EXE_NAME} VERSION 1.0.0 LANGUAGES C CXX)
 file(WRITE "executable_name.txt" "${MY_EXE_NAME}\n")
+
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -15,7 +15,7 @@ set(BIN_DIR_LINUX_GCC     "bin/linux-gcc")
 set(BIN_DIR_LINUX_CLANG   "bin/linux-clang")
 set(BIN_DIR_WINDOWS_MSVC  "bin/windows-msvc")
 
-
+# Conig.h.in + placeholder => congfig.h + Cmake Variables
 configure_file(
     ${CMAKE_SOURCE_DIR}/include/config.h.in
     ${CMAKE_SOURCE_DIR}/include/config.h
@@ -37,12 +37,6 @@ find_package(nlohmann_json CONFIG REQUIRED)
 add_subdirectory(src)
 add_subdirectory(include)
 
-target_link_libraries(Executable PRIVATE ConfigManager)
-target_link_libraries(Executable PRIVATE InstanceHandler)
-target_link_libraries(Executable PRIVATE WindowHandler)
-target_link_libraries(Executable PRIVATE BaseObject)
-target_link_libraries(Executable PRIVATE SDL3::SDL3)
-target_link_libraries(Executable PRIVATE nlohmann_json::nlohmann_json)
 
 # Output directories by platform/compiler
 if(MSVC)
