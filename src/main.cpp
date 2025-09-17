@@ -1,44 +1,65 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include "WindowHandler.h"
-#include "InstanceHandler.h"
+
 int main(int argc, char *argv[])
 {
-
     WindowHandler window("An SDL3 window", 640, 480, SDL_WINDOW_RESIZABLE);
 
     SDL_Event event;
 
-    std::cout << "Press F to switch FPS (30/60/120/144/∞)\n";
-    std::cout << "Press V to toggle VSync\n";
-    std::cout << "Press F11 to toggle Fullscrenn\n";
     std::cout << "Press ESC to quit\n";
+
+    // BOX TEST
+    float rectX = 0.0f;
+    float rectY = 200.0f;
+    float speed = 200.0f; // px/s
+
+    int rectW = 50;
+    int rectH = 50;
 
     while (window.IsRunning())
     {
-
         // --- DeltaTime ---
         window.UpdateTime();
+        double dt = window.DeltaTime();
 
-        // --- Update ---
-
+        // --- Event Handling ---
         while (SDL_PollEvent(&event))
         {
             window.HandleEvent(event);
         }
-        // InstanceHandler::AllUpdate(window.DeltaTime());
+
+        // --- Fill Backgroundcolor ---
+        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 255, 255); // Hintergrund
+        SDL_RenderClear(window.GetRenderer());
+
 
         // --- Render ---
-        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 255, 255);
-        SDL_RenderClear(window.GetRenderer());
-        SDL_RenderPresent(window.GetRenderer());
 
-        // InstanceHandler::AllDraw();
+
+        // BOX TEST
+        rectX += speed * dt;
+        if (rectX > 640){
+            rectX = -rectW;
+        }
+        SDL_FRect rect;
+        rect.x = rectX;
+        rect.y = rectY;
+        rect.w = 50.0f;
+        rect.h = 50.0f;
+        SDL_SetRenderDrawColor(window.GetRenderer(), 255, 0, 0, 255);
+        SDL_RenderFillRect(window.GetRenderer(), &rect);
+
+
+
+        // --- Screen Update ---
+        SDL_RenderPresent(window.GetRenderer());
 
         // --- FPS Limiter ---
         window.LimitFPS();
 
-        // --- Show FPS ---
+        // --- DeltaTime & FPS Anzeige ---
         window.ShowDeltaTime();
     }
 
