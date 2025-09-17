@@ -2,6 +2,7 @@
   "name": "my-sdl3-master-template",
   "version-string": "1.0.0",
   "dependencies": [
+    "nlohmann-json",
     {
       "name": "sdl3",
       "default-features": false,
