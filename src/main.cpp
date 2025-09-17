@@ -1,11 +1,11 @@
+#include "config.h"
 #include <SDL3/SDL.h>
 #include <iostream>
 #include "WindowHandler.h"
 
 int main(int argc, char *argv[])
 {
-    WindowHandler window("An SDL3 window", 640, 480, SDL_WINDOW_RESIZABLE);
-
+    WindowHandler window;
     SDL_Event event;
 
     std::cout << "Press ESC to quit\n";
@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     // BOX TEST
     float rectX = 0.0f;
     float rectY = 200.0f;
-    float speed = 200.0f; // px/s
+    float speed = 200.0f; 
 
     int rectW = 50;
     int rectH = 50;

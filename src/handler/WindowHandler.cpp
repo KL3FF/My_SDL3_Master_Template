@@ -3,14 +3,28 @@
 #include <iostream>
 #include "WindowHandler.h"
 
-WindowHandler::WindowHandler(const char *title, int w, int h, SDL_WindowFlags flags)
+WindowHandler::WindowHandler()
 {
 
-    SDL_Init(SDL_INIT_VIDEO);
+    //! hier muss ich die sachen laden 
 
-    window = SDL_CreateWindow(title, w, h, flags);
+
+  
+    SDL_Init(SDL_INIT_VIDEO);
+    window = SDL_CreateWindow(title, screenWidth, screenheight, flags);
 
     renderer = SDL_CreateRenderer(window, NULL);
+    SDL_SetRenderVSync(renderer, vsyncEnabled ? 1 : 0);
+
+    if (!fullscreenEnabled)
+    {
+        SDL_SetWindowFullscreen(window, 0);
+    }
+    else
+    {
+        SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+    }
+
     if (!renderer)
     {
         std::cerr << "SDL_CreateRenderer Fehler: " << SDL_GetError() << std::endl;
@@ -61,8 +75,9 @@ void WindowHandler::HandleEvent(const SDL_Event &event)
         }
         if (event.key.key == SDLK_F11)
         {
-            Uint32 flags = SDL_GetWindowFlags(window);
-            if (flags & SDL_WINDOW_FULLSCREEN)
+
+            vsyncEnabled = !vsyncEnabled;
+            if (!vsyncEnabled)
             {
                 SDL_SetWindowFullscreen(window, 0);
             }

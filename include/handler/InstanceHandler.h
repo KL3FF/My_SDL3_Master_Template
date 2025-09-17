@@ -11,8 +11,6 @@ public:
 
     static std::unordered_map<std::string, BaseObject*> gameInstances;
 
-    static std::vector<BaseObject*> removeList;
-
     static void AllUpdate(double& ndt);
     static void AllDraw();              
 
