@@ -1,14 +1,14 @@
 # -------------------------
-# Allgemeine Einstellungen
+# Root Settings
 PROJECT_ROOT := $(CURDIR)
 
 # -------------------------
-# Build-Verzeichnisse
+# Build-Directories
 BUILD_DIR_LINUX_GCC   	:= $(PROJECT_ROOT)/build/build-linux-gcc
 BUILD_DIR_LINUX_CLANG	:= $(PROJECT_ROOT)/build/build-linux-clang
 BUILD_DIR_WINDOWS_MSVC	:= $(PROJECT_ROOT)/build/build-windows
 
-# Bin-Verzeichnisse
+# Bin-Directories
 BIN_DIR_LINUX_GCC		:= $(PROJECT_ROOT)/bin/linux-gcc
 BIN_DIR_LINUX_CLANG		:= $(PROJECT_ROOT)/bin/linux-clang
 BIN_DIR_WINDOWS_MSVC	:= $(PROJECT_ROOT)/bin/windows
