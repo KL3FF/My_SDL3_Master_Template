@@ -2,8 +2,6 @@
 
 ## Packages
 
-These are the packages required to build and run the project on Debian-based systems:
-
 ```bash
 sudo apt update
 sudo apt install make gdb gcc g++ clang cmake doxygen python3 python3-pip mingw-w64 autoconf automake autoconf-archive libltdl-dev build-essential ninja-build pkg-config libtool libcap-dev liblzma-dev libx11-dev libxext-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev
