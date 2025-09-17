@@ -10,3 +10,4 @@ bin/*
 external/*
 !external/.gitkeep
 
+include/config.h
