@@ -1,0 +1,23 @@
+{
+  "name": "my-sdl3-master-template",
+  "version-string": "1.0.0",
+  "dependencies": [
+    {
+      "name": "sdl3",
+      "default-features": false,
+      "features": [
+        "windows"
+      ],
+      "platform": "windows"
+    },
+    {
+      "name": "sdl3",
+      "default-features": false,
+      "features": [
+        "x11",
+        "wayland"
+      ],
+      "platform": "linux"
+    }
+  ]
+}

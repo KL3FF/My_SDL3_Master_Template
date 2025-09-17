@@ -1,0 +1,12 @@
+old/*
+!old/.gitkeep
+
+build/*
+!build/.gitkeep
+
+bin/*
+!bin/.gitkeep
+
+external/*
+!external/.gitkeep
+

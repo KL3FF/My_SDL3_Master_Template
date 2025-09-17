@@ -1,0 +1,1 @@
+add_library(BaseObject STATIC "BaseObject.cpp")
