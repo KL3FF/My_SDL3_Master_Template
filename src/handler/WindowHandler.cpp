@@ -83,6 +83,7 @@ void WindowHandler::HandleEvent(const SDL_Event &event)
         if (event.key.key == SDLK_V)
         {
             vsyncEnabled = !vsyncEnabled;
+            SDL_SetRenderVSync(renderer, vsyncEnabled ? 1 : 0);
         }
     }
 }
