@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31.6)
 
 # Name of the executable
 set(MY_EXE_NAME "Executable")
-project(${MY_EXE_NAME} VERSION 1.0.0 LANGUAGES C CXX)
+project(Executable VERSION 1.0.0 LANGUAGES C CXX)
 file(WRITE "executable_name.txt" "${MY_EXE_NAME}\n")
 
 
@@ -17,8 +17,8 @@ set(BIN_DIR_WINDOWS_MSVC  "bin/windows-msvc")
 
 # Conig.h.in + placeholder => congfig.h + Cmake Variables
 configure_file(
-    ${CMAKE_SOURCE_DIR}/include/config/configTest.h.in
-    ${CMAKE_SOURCE_DIR}/include/config/configTest.h
+    ${CMAKE_SOURCE_DIR}/include/config/ConfigInfo.h.in
+    ${CMAKE_SOURCE_DIR}/include/config/ConfigInfo.h
     @ONLY
 )
 
@@ -31,24 +31,11 @@ endif()
 
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(SDL3 CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
+# find_package(nlohmann_json CONFIG REQUIRED)
 
 # Sources and headers
 add_subdirectory(src)
 add_subdirectory(include)
-
-
-
-add_executable(Executable main.cpp)
-target_link_libraries(Executable PRIVATE ConfigInfo)
-target_link_libraries(Executable PRIVATE ConfigManager)
-target_link_libraries(Executable PRIVATE InstanceHandler)
-target_link_libraries(Executable PRIVATE WindowHandler)
-target_link_libraries(Executable PRIVATE BaseObject)
-target_link_libraries(Executable PRIVATE SDL3::SDL3)
-target_link_libraries(Executable PRIVATE nlohmann_json::nlohmann_json)
-
-
 
 # Output directories by platform/compiler
 if(MSVC)

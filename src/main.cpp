@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
     SDL_Event event;
 
     std::cout << PROJECT_NAME << "\n";
+    std::cout << PROJECT_VERSION_MAJOR << "." << PROJECT_VERSION_MINOR  << "." << PROJECT_VERSION_PATCH << "\n";
 
     std::cout << "Press ESC to quit\n";
 

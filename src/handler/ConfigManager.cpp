@@ -1,47 +1,47 @@
 
 
-#include <fstream>
-#include <iostream>
-#include "ConfigInfo.h"
-#include "ConfigManager.h"
+// #include <fstream>
+// #include <iostream>
+// #include "ConfigInfo.h"
+// #include "ConfigManager.h"
 
-nlohmann::json ConfigManager::j;
-std::filesystem::path ConfigManager::path;
+// nlohmann::json ConfigManager::j;
+// std::filesystem::path ConfigManager::path;
 
-void ConfigManager::load() {
-    path = getConfigPath();
+// void ConfigManager::load() {
+//     path = getConfigPath();
 
-    std::filesystem::create_directories(path.parent_path());
+//     std::filesystem::create_directories(path.parent_path());
 
-    std::ifstream file(path);
-    if (file.is_open()) {
-        file >> j;
-    }
-}
+//     std::ifstream file(path);
+//     if (file.is_open()) {
+//         file >> j;
+//     }
+// }
 
-void ConfigManager::save() {
-    std::ofstream(path) << j.dump(4); 
-}
+// void ConfigManager::save() {
+//     std::ofstream(path) << j.dump(4); 
+// }
 
-std::filesystem::path ConfigManager::getConfigPath() {
-#ifdef _WIN32
-    const char* appdata = std::getenv("APPDATA");
-    std::filesystem::path base = appdata ? std::filesystem::path(appdata) / PROJECT_NAME
-                                         : std::filesystem::current_path();
-#elif __linux__
-    const char* xdg = std::getenv("XDG_CONFIG_HOME");
-    std::filesystem::path base;
-    if (xdg) {
-        base = std::filesystem::path(xdg) / PROJECT_NAME;
-    } else {
-        const char* home = std::getenv("HOME");
-        base = home ? std::filesystem::path(home) / ".config" / PROJECT_NAME
-                    : std::filesystem::current_path() / PROJECT_NAME;
-    }
-#else
-    std::cerr << "Unsupported platform! Exiting.\n";
-    std::exit(EXIT_FAILURE);
-#endif
+// std::filesystem::path ConfigManager::getConfigPath() {
+// #ifdef _WIN32
+//     const char* appdata = std::getenv("APPDATA");
+//     std::filesystem::path base = appdata ? std::filesystem::path(appdata) / PROJECT_NAME
+//                                          : std::filesystem::current_path();
+// #elif __linux__
+//     const char* xdg = std::getenv("XDG_CONFIG_HOME");
+//     std::filesystem::path base;
+//     if (xdg) {
+//         base = std::filesystem::path(xdg) / PROJECT_NAME;
+//     } else {
+//         const char* home = std::getenv("HOME");
+//         base = home ? std::filesystem::path(home) / ".config" / PROJECT_NAME
+//                     : std::filesystem::current_path() / PROJECT_NAME;
+//     }
+// #else
+//     std::cerr << "Unsupported platform! Exiting.\n";
+//     std::exit(EXIT_FAILURE);
+// #endif
 
-    return base / "config.json";
-}
+//     return base / "config.json";
+// }
