@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31.6)
 
 # Name of the executable
 set(MY_EXE_NAME "Executable")
-project(Executable VERSION 1.0.0 LANGUAGES C CXX)
+project(${MY_EXE_NAME} VERSION 1.0.0 LANGUAGES C CXX)
 file(WRITE "executable_name.txt" "${MY_EXE_NAME}\n")
 
 
