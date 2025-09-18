@@ -5,7 +5,6 @@ add_subdirectory(instance)
 
 
 add_executable(Executable main.cpp)
-# target_include_directories(Executable PRIVATE ${CMAKE_SOURCE_DIR}/include/config)
 target_link_libraries(Executable PRIVATE ConfigInfo)
 target_link_libraries(Executable PRIVATE ConfigManager)
 target_link_libraries(Executable PRIVATE InstanceHandler)

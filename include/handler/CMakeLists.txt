@@ -1,6 +1,6 @@
 target_include_directories(ConfigManager PUBLIC "./")
-# target_link_libraries(ConfigManager PRIVATE ConfigInfo)
-# target_link_libraries(ConfigManager PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(ConfigManager PRIVATE ConfigInfo)
+target_link_libraries(ConfigManager PRIVATE nlohmann_json::nlohmann_json)
 
 target_include_directories(InstanceHandler PUBLIC "./")
 target_link_libraries(InstanceHandler PRIVATE BaseObject)

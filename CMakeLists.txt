@@ -31,7 +31,7 @@ endif()
 
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(SDL3 CONFIG REQUIRED)
-# find_package(nlohmann_json CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
 # Sources and headers
 add_subdirectory(src)
