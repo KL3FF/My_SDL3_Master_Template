@@ -1,8 +1,8 @@
 #pragma once
-#include <nlohmann/json.hpp>
 #include <filesystem>
 #include <string>
-#include "config.h" // für PROJECT_NAME
+#include "ConfigInfo.h"
+#include <nlohmann/json.hpp>
 
 class ConfigManager {
 public:

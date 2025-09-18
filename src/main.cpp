@@ -1,7 +1,8 @@
-#include "config.h"
+
 #include <SDL3/SDL.h>
 #include <iostream>
 #include "WindowHandler.h"
+#include "ConfigInfo.h"
 
 int main(int argc, char *argv[])
 {

@@ -1,8 +1,9 @@
-#include "config.h"
-#include "ConfigManager.h"
+
+
 #include <fstream>
 #include <iostream>
-
+#include "ConfigInfo.h"
+#include "ConfigManager.h"
 
 nlohmann::json ConfigManager::j;
 std::filesystem::path ConfigManager::path;

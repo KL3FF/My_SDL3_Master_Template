@@ -76,6 +76,7 @@
         "ranges": "cpp",
         "sstream": "cpp",
         "valarray": "cpp",
-        "*.in": "cpp"
+        "*.in": "cpp",
+        "filesystem": "cpp"
     }
 }
