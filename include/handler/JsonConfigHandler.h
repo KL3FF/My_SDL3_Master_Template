@@ -3,11 +3,11 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-class ConfigManager {
+class JsonConfigHandler {
 public:
 
     static void load();
-
+ 
     static void save();
 
     template<typename T>
@@ -26,7 +26,7 @@ private:
 };
 
 template<typename T>
-T ConfigManager::get(const std::string& key, const T& defaultValue) {
+T JsonConfigHandler::get(const std::string& key, const T& defaultValue) {
     if (!j.contains(key)) {
         j[key] = defaultValue;
     }
@@ -34,6 +34,6 @@ T ConfigManager::get(const std::string& key, const T& defaultValue) {
 }
 
 template<typename T>
-void ConfigManager::set(const std::string& key, const T& value) {
+void JsonConfigHandler::set(const std::string& key, const T& value) {
     j[key] = value;
 }

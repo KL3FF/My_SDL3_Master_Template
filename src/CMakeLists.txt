@@ -6,7 +6,7 @@ add_subdirectory(instance)
 
 add_executable(Executable main.cpp)
 target_link_libraries(Executable PRIVATE ConfigInfo)
-target_link_libraries(Executable PRIVATE ConfigManager)
+target_link_libraries(Executable PRIVATE JsonConfigHandler)
 target_link_libraries(Executable PRIVATE InstanceHandler)
 target_link_libraries(Executable PRIVATE WindowHandler)
 target_link_libraries(Executable PRIVATE BaseObject)

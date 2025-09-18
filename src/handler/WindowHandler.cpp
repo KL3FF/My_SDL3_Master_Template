@@ -2,16 +2,20 @@
 #include <SDL3/SDL.h>
 #include <iostream>
 #include "WindowHandler.h"
+#include "JsonConfigHandler.h"
 
 WindowHandler::WindowHandler()
 {
 
-    //! hier muss ich die sachen laden 
+    JsonConfigHandler::load();
+    fullscreenEnabled = JsonConfigHandler::get("fullscreen", false);
+    vsyncEnabled = JsonConfigHandler::get("vsync", false);
+    screenWidth  = JsonConfigHandler::get("width", 1280);
+    screenHeight = JsonConfigHandler::get("height", 720);
+    JsonConfigHandler::save();
 
-    
-  
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow(title, screenWidth, screenheight, flags);
+    window = SDL_CreateWindow(title, screenWidth, screenHeight, flags);
 
     renderer = SDL_CreateRenderer(window, NULL);
     SDL_SetRenderVSync(renderer, vsyncEnabled ? 1 : 0);
@@ -41,6 +45,13 @@ WindowHandler::WindowHandler()
 
 WindowHandler::~WindowHandler()
 {
+    JsonConfigHandler::load();
+    JsonConfigHandler::set("fullscreen", fullscreenEnabled);
+    JsonConfigHandler::set("vsync", vsyncEnabled);
+    JsonConfigHandler::set("width", screenWidth);
+    JsonConfigHandler::set("height", screenHeight);
+    JsonConfigHandler::save();
+
     if (renderer)
     {
         SDL_DestroyRenderer(renderer);
@@ -52,6 +63,7 @@ WindowHandler::~WindowHandler()
     }
 
     SDL_Quit();
+
 }
 
 void WindowHandler::HandleEvent(const SDL_Event &event)
@@ -67,6 +79,13 @@ void WindowHandler::HandleEvent(const SDL_Event &event)
         isRunning = false;
     }
 
+    if (event.type == SDL_EVENT_WINDOW_RESIZED)
+    {
+        screenWidth = event.window.data1;
+        screenHeight = event.window.data2;
+        std::cout << "Window resized: " << screenHeight << "x" << screenWidth << std::endl;
+    }
+
     if (event.type == SDL_EVENT_KEY_DOWN)
     {
         if (event.key.key == SDLK_ESCAPE)
@@ -76,8 +95,8 @@ void WindowHandler::HandleEvent(const SDL_Event &event)
         if (event.key.key == SDLK_F11)
         {
 
-            vsyncEnabled = !vsyncEnabled;
-            if (!vsyncEnabled)
+            fullscreenEnabled = !fullscreenEnabled;
+            if (!fullscreenEnabled)
             {
                 SDL_SetWindowFullscreen(window, 0);
             }

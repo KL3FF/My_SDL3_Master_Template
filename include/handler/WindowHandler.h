@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
-#include "ConfigManager.h"
+
 class WindowHandler
 {
 public:
@@ -30,7 +30,7 @@ private:
     double deltaTime = 0.0;
 
     int screenWidth = 1280;
-    int screenheight = 720;
+    int screenHeight = 720;
     const char *title =  "SDL3 Master Template";
     SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
     bool vsyncEnabled = false;
