@@ -19,6 +19,12 @@
         "wayland"
       ],
       "platform": "linux"
-    }
+    },
+    "sdl3-image"
   ]
 }
+
+
+
+
+

@@ -1,8 +1,10 @@
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 #include <iostream>
 #include "WindowHandler.h"
 #include "JsonConfigHandler.h"
+#include "TextureHandler.h"
 
 WindowHandler::WindowHandler()
 {
@@ -36,6 +38,10 @@ WindowHandler::WindowHandler()
         SDL_Quit();
         isRunning = false;
     }
+
+
+
+
     if (window == NULL)
     {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
@@ -135,13 +141,44 @@ void WindowHandler::LimitFPS()
     if (!vsyncEnabled && targetFPS > 0)
     {
         Uint64 now = SDL_GetTicksNS();
-        double targetNs = targetFrameTime * 1'000'000.0;
+        double targetFrameTimeNs = 1'000'000'000.0 / targetFPS;
         double elapsed = now - frameStart;
 
-        if (elapsed < targetNs)
-            SDL_DelayNS((Uint64)(targetNs - elapsed));
+        if (elapsed < targetFrameTimeNs){
+            SDL_DelayNS((Uint64)(targetFrameTimeNs - elapsed));
+        }
+
+
     }
+
 }
+
+// void WindowHandler::LimitFPS()
+// {
+//     if (!vsyncEnabled && targetFPS > 0)
+//     {
+//         Uint64 now = SDL_GetTicksNS();
+//         double targetFrameTimeNs = 1'000'000'000.0 / targetFPS;
+//         double elapsed = now - frameStart;
+
+//         if (elapsed < targetFrameTimeNs){
+//             Uint32 delayMs = static_cast<Uint32>((targetFrameTimeNs - elapsed) / 1'000'000.0);
+//             SDL_Delay(delayMs);
+//         }
+//           // Busy-Wait für Restzeit
+//         while ((SDL_GetTicksNS() - frameStart) < targetFrameTimeNs)
+//         {
+//             // Leere Schleife → CPU wartet aktiv
+//         }
+//     }
+//     else
+//     {
+//         SDL_Delay(1);
+//     }
+// }
+
+
+
 
 void WindowHandler::ShowDeltaTime()
 {
