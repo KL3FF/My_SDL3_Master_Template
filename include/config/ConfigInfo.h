@@ -19,7 +19,6 @@
 
 inline std::filesystem::path exeDir;
 
-
 inline void initExeDir() {
 #ifdef _WIN32
     char path[MAX_PATH];

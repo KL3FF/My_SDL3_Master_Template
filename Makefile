@@ -28,10 +28,10 @@ VCPKG_TOOLCHAIN := $(PROJECT_ROOT)/external/vcpkg/scripts/buildsystems/vcpkg.cma
 all: build-linux-gcc build-linux-clang build-windows
 
 # -------------------------
-# Python-Script BundleMaker
+# Python-Script BundlePakMaker
 build-bundle:
 	@echo "=== Building Bundle ==="
-	@python3 BundleMaker.py $(ASSETS_SRC) $(PROJECT_ROOT)/assets/bundle.bin
+	@python3 BundlePakMaker.py $(ASSETS_SRC) $(PROJECT_ROOT)
 
 # -------------------------
 # Linux Builds
@@ -45,7 +45,7 @@ build-linux-gcc:
 	cmake --build $(BUILD_DIR_LINUX_GCC) --config Release
 	@echo ">>> Copying assets folder to $(BIN_DIR_LINUX_GCC)"
 	@echo ">>> Building Python bundle"
-	@python3 BundleMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_GCC)/assets/bundle.bin
+	@python3 BundlePakMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_GCC)
 
 build-linux-clang:
 	@echo "=== Building Linux (Clang) ==="
@@ -57,7 +57,7 @@ build-linux-clang:
 	cmake --build $(BUILD_DIR_LINUX_CLANG) --config Release
 	@echo ">>> Copying assets folder to $(BIN_DIR_LINUX_CLANG)"
 	@echo ">>> Building Python bundle"
-	@python3 BundleMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_CLANG)/assets/bundle.bin
+	@python3 BundlePakMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_CLANG)
 
 # -------------------------
 # Windows Builds
@@ -71,7 +71,7 @@ ifeq ($(OS),Windows_NT)
 	@echo ">>> Copying assets folder to $(BIN_DIR_WINDOWS_MSVC)"
 	$(MAKE) copy-vcpkg-dlls-msvc
 	@echo ">>> Building Python bundle"
-	@python BundleMaker.py "$(ASSETS_SRC)" "$(BIN_DIR_WINDOWS_MSVC)\bundle.bin"
+	@python BundlePakMaker.py "$(ASSETS_SRC)" "$(BIN_DIR_WINDOWS_MSVC)"
 else
 	@echo "MSVC Build nur auf Windows möglich!"
 endif
