@@ -1,3 +1,5 @@
+target_include_directories(BundleHandler PUBLIC "./")
+
 target_include_directories(JsonConfigHandler PUBLIC "./")
 target_link_libraries(JsonConfigHandler PRIVATE ConfigInfo)
 target_link_libraries(JsonConfigHandler PRIVATE nlohmann_json::nlohmann_json)

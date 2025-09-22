@@ -1,3 +1,7 @@
+add_library(BundleHandler STATIC "BundleHandler.cpp")
+target_link_libraries(BundleHandler PRIVATE ConfigInfo)
+
+
 add_library(JsonConfigHandler STATIC "JsonConfigHandler.cpp")
 target_link_libraries(JsonConfigHandler PRIVATE ConfigInfo)
 add_library(InstanceHandler STATIC "InstanceHandler.cpp")

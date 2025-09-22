@@ -6,12 +6,14 @@
 #include <string>
 #include <iostream>
 
-// Hilfsstruktur für Texturen
+// Helper structure for textures
 struct Texture
 {
     SDL_Texture* tex;
+    float ttl = 300; // Time to live in seconds
     int width;
     int height;
+    
 
     Texture(SDL_Texture* t, int w, int h);
     ~Texture();
@@ -20,19 +22,19 @@ struct Texture
 class TextureManager
 {
 public:
-    // Textur hinzufügen
+    // Add a texture
     static void Add(SDL_Renderer& renderer, const std::string& id, const std::string& filename);
 
-    // Textur holen
+    // Get a texture
     static SDL_Texture* Get(const std::string& id);
 
-    // Größe holen
+    // Get the size of a texture
     static std::pair<int,int> GetSize(const std::string& id);
 
-    // Textur löschen
+    // Delete a texture
     static void Delete(const std::string& id);
 
-    // Alle Texturen löschen
+    // Clear all textures
     static void ClearAll();
 
 private:

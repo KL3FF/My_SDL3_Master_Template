@@ -28,6 +28,12 @@ VCPKG_TOOLCHAIN := $(PROJECT_ROOT)/external/vcpkg/scripts/buildsystems/vcpkg.cma
 all: build-linux-gcc build-linux-clang build-windows
 
 # -------------------------
+# Python-Script BundleMaker
+build-bundle:
+	@echo "=== Building Bundle ==="
+	@python3 BundleMaker.py $(ASSETS_SRC) $(PROJECT_ROOT)/assets/bundle.bin
+
+# -------------------------
 # Linux Builds
 build-linux-gcc:
 	@echo "=== Building Linux (GCC) ==="
@@ -38,7 +44,8 @@ build-linux-gcc:
 		-DVCPKG_TARGET_TRIPLET=x64-linux
 	cmake --build $(BUILD_DIR_LINUX_GCC) --config Release
 	@echo ">>> Copying assets folder to $(BIN_DIR_LINUX_GCC)"
-	@cp -r $(ASSETS_SRC) $(BIN_DIR_LINUX_GCC)
+	@echo ">>> Building Python bundle"
+	@python3 BundleMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_GCC)/assets/bundle.bin
 
 build-linux-clang:
 	@echo "=== Building Linux (Clang) ==="
@@ -49,7 +56,8 @@ build-linux-clang:
 		-DVCPKG_TARGET_TRIPLET=x64-linux
 	cmake --build $(BUILD_DIR_LINUX_CLANG) --config Release
 	@echo ">>> Copying assets folder to $(BIN_DIR_LINUX_CLANG)"
-	@cp -r $(ASSETS_SRC) $(BIN_DIR_LINUX_CLANG)
+	@echo ">>> Building Python bundle"
+	@python3 BundleMaker.py $(ASSETS_SRC) $(BIN_DIR_LINUX_CLANG)/assets/bundle.bin
 
 # -------------------------
 # Windows Builds
@@ -61,8 +69,9 @@ ifeq ($(OS),Windows_NT)
 		-DCMAKE_TOOLCHAIN_FILE=$(VCPKG_TOOLCHAIN) -DVCPKG_TARGET_TRIPLET=x64-windows -A x64
 	cmake --build $(BUILD_DIR_WINDOWS_MSVC) --config Release
 	@echo ">>> Copying assets folder to $(BIN_DIR_WINDOWS_MSVC)"
-	@xcopy /E /I "$(ASSETS_SRC)" "$(BIN_DIR_WINDOWS_MSVC)\assets"
 	$(MAKE) copy-vcpkg-dlls-msvc
+	@echo ">>> Building Python bundle"
+	@python BundleMaker.py "$(ASSETS_SRC)" "$(BIN_DIR_WINDOWS_MSVC)\bundle.bin"
 else
 	@echo "MSVC Build nur auf Windows möglich!"
 endif

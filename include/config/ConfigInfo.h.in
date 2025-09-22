@@ -5,3 +5,33 @@
 #define PROJECT_VERSION_MINOR "@PROJECT_VERSION_MINOR@"
 #define PROJECT_VERSION_PATCH "@PROJECT_VERSION_PATCH@"
 
+
+
+#pragma once
+#include <filesystem>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
+
+
+inline std::filesystem::path exeDir;
+
+inline void initExeDir() {
+#ifdef _WIN32
+    char path[MAX_PATH];
+    GetModuleFileNameA(nullptr, path, MAX_PATH);
+    exeDir = std::filesystem::path(path).parent_path();
+#else
+    char buf[4096];
+    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+    if (len != -1) {
+        buf[len] = '\0';
+        exeDir = std::filesystem::path(buf).parent_path();
+    } else {
+        exeDir = std::filesystem::current_path();
+    }
+#endif
+}
