@@ -5,7 +5,7 @@
 #include "BundleAssetsHandler.h"
 #include "WindowHandler.h"
 #include "ConfigInfo.h"
-
+#include "TextureHandler.h"
 int main(int argc, char *argv[])
 {
     initExeDir();
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     WindowHandler window;
     SDL_Event event;
+    TextureManager::InitPlaceholder(window.GetRenderer());
 
     std::cout << PROJECT_NAME << "\n";
     std::cout << PROJECT_VERSION_MAJOR << "." << PROJECT_VERSION_MINOR << "." << PROJECT_VERSION_PATCH << "\n";
