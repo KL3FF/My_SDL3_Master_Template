@@ -2,23 +2,20 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
-#include "BundleHandler.h"
+#include "BundleAssetsHandler.h"
 #include "WindowHandler.h"
 #include "ConfigInfo.h"
 
 int main(int argc, char *argv[])
 {
-    // initExeDir();
-    // std::cerr << exeDir << "\n";
-
-    // std::string bundlePath = "assets/screenHeight recursiv look for folder and save all date in a file 2ogether in a .pak for each file";
-
-    // // Bundle load
-    // if (!BundleHandler::loadBundle(bundlePath))
-    // {
-    //     return 1;
-    // }
-    // BundleHandler::printAllEntries();
+    initExeDir();
+    std::cerr << exeDir << "\n";
+    // Bundle load
+    if (!BundleAssetsHandler::loadBundle())
+    {
+        return 1;
+    }
+    BundleAssetsHandler::printAllEntries();
 
     WindowHandler window;
     SDL_Event event;

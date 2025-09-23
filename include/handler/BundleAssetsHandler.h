@@ -4,23 +4,24 @@
 #include <cstdint>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 struct BundleEntry
 {
     uint32_t offset;
     uint32_t size;
     std::string fullPath;
+    std::string pakPath;
     std::string name;
-    std::string extension; 
+    std::string extension;
 };
 
-class BundleHandler
+class BundleAssetsHandler
 {
 public:
-    static bool loadBundle(const std::string &bundlePath);
+    static bool loadBundle();
     static bool removeFile(const std::string &path);
     static void clearAllFiles();
-
     static void printAllEntries();
 
 private:
