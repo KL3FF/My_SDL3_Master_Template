@@ -92,5 +92,6 @@ int main(int argc, char *argv[])
         window.ShowDeltaTime();
     }
 
+    BundleAssetsHandler::clearAllFiles();
     return 0;
 }

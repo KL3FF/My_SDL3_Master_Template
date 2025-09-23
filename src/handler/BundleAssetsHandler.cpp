@@ -67,8 +67,7 @@ bool BundleAssetsHandler::loadBundle()
                 extension = extension.substr(1);
             }
 
-            BundleEntry *entry = new BundleEntry{offset, size, storedPath, pakPath, name, extension};
-            bundleEntries[storedPath] = entry;
+            bundleEntries[storedPath] = new BundleEntry{offset, size, storedPath, pakPath, name, extension};
         }
 
         file.close();
@@ -96,6 +95,7 @@ void BundleAssetsHandler::clearAllFiles()
         delete pair.second;
     }
     bundleEntries.clear();
+
 }
 
 void BundleAssetsHandler::printAllEntries()
@@ -113,3 +113,4 @@ void BundleAssetsHandler::printAllEntries()
         std::cout << "---------------------------\n";
     }
 }
+
