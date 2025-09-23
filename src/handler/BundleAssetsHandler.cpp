@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 std::unordered_map<std::string, BundleEntry *> BundleAssetsHandler::bundleEntries;
 
@@ -17,10 +18,9 @@ bool BundleAssetsHandler::loadBundle()
             continue;
 
         std::filesystem::path path = entry.path();
-      
+
         if (path.extension() != ".pak")
             continue;
-     
 
         std::ifstream file(path, std::ios::binary);
         if (!file.is_open())
@@ -28,7 +28,6 @@ bool BundleAssetsHandler::loadBundle()
             std::cerr << "Error: Could not open PAK: " << path << "\n";
             continue;
         }
-        
 
         // --- Check signature ---
         char signature[4];
@@ -95,7 +94,6 @@ void BundleAssetsHandler::clearAllFiles()
         delete pair.second;
     }
     bundleEntries.clear();
-
 }
 
 void BundleAssetsHandler::printAllEntries()
@@ -114,3 +112,27 @@ void BundleAssetsHandler::printAllEntries()
     }
 }
 
+std::vector<uint8_t> BundleAssetsHandler::getFileData(const std::string &fullPathInBundle)
+{
+    auto it = BundleAssetsHandler::bundleEntries.find(fullPathInBundle);
+    if (it == BundleAssetsHandler::bundleEntries.end())
+    {
+        return {};
+    }
+
+    BundleEntry *entry = it->second;
+
+    std::filesystem::path fullPakPath = std::filesystem::path(exeDir) / entry->pakPath;
+    std::ifstream pakFile(fullPakPath, std::ios::binary);
+
+    if (!pakFile.is_open()){
+        return {};
+    }
+  
+    pakFile.seekg(entry->offset, std::ios::beg);
+
+    std::vector<uint8_t> data(entry->size);
+    pakFile.read(reinterpret_cast<char *>(data.data()), entry->size);
+
+    return data;
+}

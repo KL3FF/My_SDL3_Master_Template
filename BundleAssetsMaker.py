@@ -36,7 +36,7 @@ def write_pak(folder_path, pak_path, base_assets_dir):
                 pak.write(data)
             size = len(data)
             file_infos.append((rel_path, offset, size))
-            print(f"Added file: path: {rel_path}, Offset: {offset}, Size: {size}")
+            # print(f"Added file: path: {rel_path}, Offset: {offset}, Size: {size}")
 
         # --- directory at the end ---
         directory_offset = pak.tell()
@@ -52,7 +52,7 @@ def write_pak(folder_path, pak_path, base_assets_dir):
         pak.seek(4)
         pak.write(struct.pack("<II", directory_offset, directory_size))
 
-    print(f"PAK '{pak_path}' created with {len(files)} files.\n")
+    # print(f"PAK '{pak_path}' created with {len(files)} files.\n")
 
 def build_assets(asset_dir, build_dir):
     for root, dirs, _ in os.walk(asset_dir):
@@ -65,7 +65,7 @@ def build_assets(asset_dir, build_dir):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: BundleMaker.py <assets_folder> <build_tool_bin>")
+        # print("Usage: BundleMaker.py <assets_folder> <build_tool_bin>")
         sys.exit(1)
 
     assets_dir = sys.argv[1]

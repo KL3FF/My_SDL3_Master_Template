@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <vector>
 
 struct BundleEntry
 {
@@ -23,7 +24,7 @@ public:
     static bool removeFile(const std::string &path);
     static void clearAllFiles();
     static void printAllEntries();
-
+    static std::vector<uint8_t> getFileData(const std::string& fullPathInBundle);
 private:
     static std::unordered_map<std::string, BundleEntry *> bundleEntries;
 };

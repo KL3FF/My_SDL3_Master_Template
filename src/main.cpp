@@ -15,7 +15,11 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-    BundleAssetsHandler::printAllEntries();
+    // BundleAssetsHandler::printAllEntries();
+
+
+    BundleAssetsHandler::getFileData("assets/sprites/mid/hero/test3.png");
+
 
     WindowHandler window;
     SDL_Event event;
