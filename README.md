@@ -24,7 +24,7 @@ PythonBundleAssetsMaker         ██████████ 100% 🟢
 BuildAssetsHandler              ████████░░ 80%  🟢
 JSON Config Loader              ███████░░░ 70%  🟡
 Instance Manager                ███░░░░░░░ 30%  🔴
-Makefile Shortcuts              █████████░ 90%  🟢
+Makefile Shortcuts              ████████░░ 70%  🟢
 Graphical Representation        █░░░░░░░░░ 10%  🔴
 Scene Editor                    ░░░░░░░░░░ 0%   🔴
 Event Manager                   ░░░░░░░░░░ 0%   🔴
