@@ -23,9 +23,12 @@ ASSETS_SRC := $(PROJECT_ROOT)/assets
 # VCPKG TOOLCHAIN
 VCPKG_TOOLCHAIN := $(PROJECT_ROOT)/external/vcpkg/scripts/buildsystems/vcpkg.cmake
 
+
+
+
 # -------------------------
 # Default Target
-all: build-linux-gcc build-linux-clang build-windows
+all: 
 
 # -------------------------
 # Python-Script BundleAssetsMaker
@@ -123,3 +126,8 @@ ifeq ($(OS),Windows_NT)
 else
 	@echo "MSVC Build nur auf Windows möglich"
 endif
+
+
+.PHONY: all build-linux-gcc build-linux-clang build-windows \
+        run-linux-gcc run-linux-clang run-windows \
+        clean clean-linux-gcc clean-linux-clang clean-windows
