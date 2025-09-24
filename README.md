@@ -1,6 +1,7 @@
 # My\_SDL\_Master\_Template
 
 **Description**
+
 This project is a **cross-platform foundation for SDL3 C++ projects**. It allows you to quickly create and compile applications on **Linux, macOS, Windows, Android, and iOS**. Using the provided **Makefile shortcuts**, required packages are automatically installed via **vcpkg**, and the **build process via CMake** is simplified.
 
 ---
