@@ -180,7 +180,3 @@ A `Makefile` is provided in the project root to simplify common build and run ta
 These shortcuts help you quickly build, clean, and run your project without manually invoking CMake or copying assets.
 
 ---
-
-Wenn du willst, kann ich noch **die Pak-Abschnitte visuell etwas schöner mit Überschriften-Hierarchie und Abständen für Markdown** gestalten, sodass sie wie ein professioneller README-Teil aussehen.
-
-Willst du, dass ich das mache?
