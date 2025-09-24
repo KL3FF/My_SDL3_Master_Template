@@ -1,7 +1,3 @@
-Alles klar! Ich habe deinen `README.md`-Text überarbeitet, die Abstände verbessert, Absätze klarer strukturiert und die Schriftgrößen durch Überschriften-Hierarchie optimiert, sodass er sauberer und übersichtlicher wirkt. Hier ist die optimierte Version:
-
----
-
 # My\_SDL\_Master\_Template
 
 **Description**
