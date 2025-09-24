@@ -20,8 +20,9 @@ Texture::~Texture()
 // --- TextureManager Implementierung ---
 std::unordered_map<std::string, Texture *> TextureManager::textures;
 
-void TextureManager::Add(SDL_Renderer &renderer, const std::string &id, const std::string &filename)
+void TextureManager::Add(SDL_Renderer *renderer, const std::string &id, const std::string &filename)
 {
+    if (!renderer) return;
 
     SDL_Surface *surface = IMG_Load(filename.c_str());
     if (!surface)
@@ -30,7 +31,7 @@ void TextureManager::Add(SDL_Renderer &renderer, const std::string &id, const st
         return;
     }
 
-    SDL_Texture *sdlTex = SDL_CreateTextureFromSurface(&renderer, surface);
+    SDL_Texture *sdlTex = SDL_CreateTextureFromSurface(renderer, surface);
     int w = surface->w;
     int h = surface->h;
     SDL_DestroySurface(surface);
@@ -46,6 +47,11 @@ void TextureManager::Add(SDL_Renderer &renderer, const std::string &id, const st
 
 SDL_Texture *TextureManager::loadTextureFromBundle(SDL_Renderer *renderer, const std::string &fullPathInBundle)
 {
+    if (!renderer) {
+        std::cerr << "Renderer is null!\n";
+        return nullptr;
+    }
+
     std::vector<uint8_t> data = BundleAssetsHandler::getFileData(fullPathInBundle);
     if (data.empty())
     {
@@ -68,6 +74,7 @@ SDL_Texture *TextureManager::loadTextureFromBundle(SDL_Renderer *renderer, const
 
 SDL_Texture *TextureManager::Get(const std::string &id)
 {
+
     auto it = textures.find(id);
     if (it != textures.end())
     {

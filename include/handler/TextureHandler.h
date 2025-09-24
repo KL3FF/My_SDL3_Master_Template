@@ -22,7 +22,7 @@ class TextureManager
 {
 public:
     // Add a texture
-    static void Add(SDL_Renderer &renderer, const std::string &id, const std::string &filename);
+    static void Add(SDL_Renderer *renderer, const std::string &id, const std::string &filename);
 
     // Get a texture
     static SDL_Texture *Get(const std::string &id);
@@ -36,9 +36,15 @@ public:
     // Clear all textures
     static void ClearAll();
 
+    // Load texture from bundle
     static SDL_Texture *loadTextureFromBundle(SDL_Renderer *renderer, const std::string &fullPathInBundle);
 
+    // Initialize a minimal placeholder texture
     static void InitPlaceholder(SDL_Renderer *renderer);
+    
+    //! brauchen noch einen std::queue  string 
+
+    //! eine funktion die dann die lsite abarbeitet, wenn es kein paket gibt dann kommt ein platzt halter 
 
 private:
     static std::unordered_map<std::string, Texture *> textures;
