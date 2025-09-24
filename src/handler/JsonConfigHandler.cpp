@@ -6,7 +6,7 @@
 nlohmann::json JsonConfigHandler::j;
 std::filesystem::path JsonConfigHandler::path;
 
-void JsonConfigHandler::Load() {
+void JsonConfigHandler::LoadJson() {
     path = GetConfigPath();
 
     std::filesystem::create_directories(path.parent_path());
@@ -17,7 +17,7 @@ void JsonConfigHandler::Load() {
     }
 }
 
-void JsonConfigHandler::Save() {
+void JsonConfigHandler::SaveJson() {
     std::ofstream(path) << j.dump(4); 
 }
 

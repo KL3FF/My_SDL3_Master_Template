@@ -21,17 +21,17 @@ struct Texture
 class TextureManager
 {
 public:
-    // Add a texture
-    static void Add(SDL_Renderer &renderer, const std::string &fullPathInBundle);
+    // AddTexture a texture
+    static void AddTexture(SDL_Renderer &renderer, const std::string &fullPathInBundle);
 
-    // Get a texture
-    static SDL_Texture *Get(const std::string &id);
+    // GetTexture a texture
+    static SDL_Texture *GetTexture(const std::string &id);
 
-    // Get the size of a texture
+    // GetTexture the size of a texture
     static std::pair<int, int> GetSize(const std::string &id);
 
-    // Delete a texture
-    static void Delete(const std::string &id);
+    // DeleteTexture a texture
+    static void DeleteTexture(const std::string &id);
 
     // Clear all textures
     static void ClearAll();

@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.31.6)
 
 # Name of the executable
-set(MY_EXE_NAME "Executable")
-project(${MY_EXE_NAME} VERSION 1.0.0 LANGUAGES C CXX)
-file(WRITE "executable_name.txt" "${MY_EXE_NAME}\n")
+set(EXE_NAME "My_Test_App")
+project("${EXE_NAME}" VERSION 1.0.0 LANGUAGES C CXX)
+file(WRITE "executable_name.txt" "${EXE_NAME}\n")
 
 
 set(CMAKE_CXX_STANDARD 23)
@@ -48,6 +48,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 # Place executable in the correct directory
-set_target_properties(${MY_EXE_NAME} PROPERTIES
+set_target_properties(MAIN PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${RUNTIME_OUT}"
+    OUTPUT_NAME "${EXE_NAME}"
 )

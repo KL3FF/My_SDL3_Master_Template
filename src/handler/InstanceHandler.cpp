@@ -13,8 +13,8 @@ void InstanceHandler::AllDraw()
    
 }
 
-// InstanceHandler::Add(new Player());
-void InstanceHandler::Add(BaseObject* instance) 
+// InstanceHandler::AddInstance(new Player());
+void InstanceHandler::AddInstance(BaseObject* instance) 
 {
     std::string uuid = CreateUuid();
 

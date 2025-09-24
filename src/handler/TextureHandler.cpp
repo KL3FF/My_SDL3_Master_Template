@@ -19,8 +19,8 @@ Texture::~Texture()
     }
 }
 
-// --- Add Funktion ---
-void TextureManager::Add(SDL_Renderer &renderer, const std::string &fullPathInBundle)
+// --- AddTexture Funktion ---
+void TextureManager::AddTexture(SDL_Renderer &renderer, const std::string &fullPathInBundle)
 {
     // Textur existiert bereits
     if (textures.find(fullPathInBundle) != textures.end())
@@ -45,8 +45,8 @@ void TextureManager::Add(SDL_Renderer &renderer, const std::string &fullPathInBu
     textures[fullPathInBundle] = new Texture(texture, texture->w, texture->h);
 }
 
-// --- Get Funktion ---
-SDL_Texture *TextureManager::Get(const std::string &id)
+// --- GetTexture Funktion ---
+SDL_Texture *TextureManager::GetTexture(const std::string &id)
 {
     auto it = textures.find(id);
     if (it != textures.end())
@@ -63,8 +63,8 @@ std::pair<int, int> TextureManager::GetSize(const std::string &id)
     return {0, 0};
 }
 
-// --- Delete Funktion ---
-void TextureManager::Delete(const std::string &id)
+// --- DeleteTexture Funktion ---
+void TextureManager::DeleteTexture(const std::string &id)
 {
     auto it = textures.find(id);
     if (it != textures.end())
@@ -117,7 +117,7 @@ void TextureManager::TextureProcessLoad(SDL_Renderer &renderer)
     if (!textureLoadingQueue.empty())
     {
         const std::string filename = textureLoadingQueue.front();
-        TextureManager::Add(renderer, filename);
+        TextureManager::AddTexture(renderer, filename);
         textureLoadingQueue.pop();
     }
 }

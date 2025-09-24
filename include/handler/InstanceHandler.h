@@ -14,7 +14,7 @@ public:
     static void AllUpdate(double& ndt);
     static void AllDraw();              
 
-    static void Add(BaseObject* instance);
+    static void AddInstance(BaseObject* instance);
     static void Remove(BaseObject* instance);
 
     static void AddToRemoveList(BaseObject* instance);

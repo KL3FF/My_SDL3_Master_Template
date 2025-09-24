@@ -11,3 +11,5 @@ external/*
 !external/.gitkeep
 
 include/config.h
+
+executable_name.txt

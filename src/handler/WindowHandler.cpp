@@ -9,12 +9,12 @@
 WindowHandler::WindowHandler()
 {
 
-    JsonConfigHandler::Load();
-    fullscreenEnabled = JsonConfigHandler::Get("fullscreen", false);
-    vsyncEnabled = JsonConfigHandler::Get("vsync", false);
-    screenWidth  = JsonConfigHandler::Get("width", 1280);
-    screenHeight = JsonConfigHandler::Get("height", 720);
-    JsonConfigHandler::Save();
+    JsonConfigHandler::LoadJson();
+    fullscreenEnabled = JsonConfigHandler::GetJsonValue("fullscreen", false);
+    vsyncEnabled = JsonConfigHandler::GetJsonValue("vsync", false);
+    screenWidth  = JsonConfigHandler::GetJsonValue("width", 1280);
+    screenHeight = JsonConfigHandler::GetJsonValue("height", 720);
+    JsonConfigHandler::SaveJson();
 
     SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(title, screenWidth, screenHeight, flags);
@@ -51,12 +51,12 @@ WindowHandler::WindowHandler()
 
 WindowHandler::~WindowHandler()
 {
-    JsonConfigHandler::Load();
-    JsonConfigHandler::Set("fullscreen", fullscreenEnabled);
-    JsonConfigHandler::Set("vsync", vsyncEnabled);
-    JsonConfigHandler::Set("width", screenWidth);
-    JsonConfigHandler::Set("height", screenHeight);
-    JsonConfigHandler::Save();
+    JsonConfigHandler::LoadJson();
+    JsonConfigHandler::SetJsonValue("fullscreen", fullscreenEnabled);
+    JsonConfigHandler::SetJsonValue("vsync", vsyncEnabled);
+    JsonConfigHandler::SetJsonValue("width", screenWidth);
+    JsonConfigHandler::SetJsonValue("height", screenHeight);
+    JsonConfigHandler::SaveJson();
 
     if (renderer)
     {
