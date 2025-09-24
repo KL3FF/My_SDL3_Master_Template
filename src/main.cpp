@@ -11,14 +11,14 @@ int main(int argc, char *argv[])
     initExeDir();
     std::cerr << exeDir << "\n";
     // Bundle load
-    if (!BundleAssetsHandler::loadBundle())
+    if (!BundleAssetsHandler::LoadBundle())
     {
         return 1;
     }
-    // BundleAssetsHandler::printAllEntries();
+    // BundleAssetsHandler::PrintAllEntries();
 
 
-    BundleAssetsHandler::getFileData("assets/sprites/mid/hero/test3.png");
+    BundleAssetsHandler::GetFileData("assets/sprites/mid/hero/test3.png");
 
 
     WindowHandler window;
@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
         }
 
         // --- Fill Backgroundcolor ---
-        SDL_SetRenderDrawColor(window.GetRenderer(), 0, 0, 255, 255);
-        SDL_RenderClear(window.GetRenderer());
+        SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
+        SDL_RenderClear(&window.GetRenderer());
 
         // --- Render ---
 
@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
         rect.y = rectY;
         rect.w = 100.0f;
         rect.h = 100.0f;
-        SDL_SetRenderDrawColor(window.GetRenderer(), 255, 0, 0, 255);
-        SDL_RenderFillRect(window.GetRenderer(), &rect);
+        SDL_SetRenderDrawColor(&window.GetRenderer(), 255, 0, 0, 255);
+        SDL_RenderFillRect(&window.GetRenderer(), &rect);
 
         // BOX TEST
         rectX2 += speed * 1.1 * dt;
@@ -84,19 +84,22 @@ int main(int argc, char *argv[])
         rect2.y = rectY2;
         rect2.w = 100.0f;
         rect2.h = 100.0f;
-        SDL_SetRenderDrawColor(window.GetRenderer(), 255, 230, 0, 255);
-        SDL_RenderFillRect(window.GetRenderer(), &rect2);
+        SDL_SetRenderDrawColor(&window.GetRenderer(), 255, 230, 0, 255);
+        SDL_RenderFillRect(&window.GetRenderer(), &rect2);
 
         // --- Screen Update ---
-        SDL_RenderPresent(window.GetRenderer());
+        SDL_RenderPresent(&window.GetRenderer());
 
         // --- FPS Limiter ---
         window.LimitFPS();
 
         // --- DeltaTime & FPS Anzeige ---
         window.ShowDeltaTime();
+
+        TextureManager::TextureProcessLoad(window.GetRenderer());
     }
 
-    BundleAssetsHandler::clearAllFiles();
+        TextureManager::ClearAll();
+        BundleAssetsHandler::ClearAllFiles();
     return 0;
 }

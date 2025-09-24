@@ -20,11 +20,11 @@ struct BundleEntry
 class BundleAssetsHandler
 {
 public:
-    static bool loadBundle();
-    static bool removeFile(const std::string &path);
-    static void clearAllFiles();
-    static void printAllEntries();
-    static std::vector<uint8_t> getFileData(const std::string& fullPathInBundle);
+    static bool LoadBundle();
+    static bool RemoveFile(const std::string &path);
+    static void ClearAllFiles();
+    static void PrintAllEntries();
+    static std::vector<uint8_t> GetFileData(const std::string& fullPathInBundle);
 private:
     static std::unordered_map<std::string, BundleEntry *> bundleEntries;
 };

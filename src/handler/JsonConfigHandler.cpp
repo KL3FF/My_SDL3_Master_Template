@@ -6,8 +6,8 @@
 nlohmann::json JsonConfigHandler::j;
 std::filesystem::path JsonConfigHandler::path;
 
-void JsonConfigHandler::load() {
-    path = getConfigPath();
+void JsonConfigHandler::Load() {
+    path = GetConfigPath();
 
     std::filesystem::create_directories(path.parent_path());
 
@@ -17,11 +17,11 @@ void JsonConfigHandler::load() {
     }
 }
 
-void JsonConfigHandler::save() {
+void JsonConfigHandler::Save() {
     std::ofstream(path) << j.dump(4); 
 }
 
-std::filesystem::path JsonConfigHandler::getConfigPath() {
+std::filesystem::path JsonConfigHandler::GetConfigPath() {
 #ifdef _WIN32
     const char* appdata = std::getenv("APPDATA");
     std::filesystem::path base = appdata ? std::filesystem::path(appdata) / PROJECT_NAME

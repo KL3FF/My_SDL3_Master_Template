@@ -8,7 +8,7 @@ public:
     ~WindowHandler();
 
     SDL_Window *GetWindow() const { return window; }
-    SDL_Renderer *GetRenderer() const { return renderer; }
+    SDL_Renderer &GetRenderer() const { return *renderer; }
 
     void HandleEvent(const SDL_Event &event);
     void LimitFPS();

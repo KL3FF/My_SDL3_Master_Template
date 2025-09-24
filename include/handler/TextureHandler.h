@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <iostream>
-
+#include <queue>
 // Helper structure for textures
 struct Texture
 {
@@ -22,7 +22,7 @@ class TextureManager
 {
 public:
     // Add a texture
-    static void Add(SDL_Renderer *renderer, const std::string &id, const std::string &filename);
+    static void Add(SDL_Renderer &renderer, const std::string &fullPathInBundle);
 
     // Get a texture
     static SDL_Texture *Get(const std::string &id);
@@ -36,16 +36,16 @@ public:
     // Clear all textures
     static void ClearAll();
 
-    // Load texture from bundle
-    static SDL_Texture *loadTextureFromBundle(SDL_Renderer *renderer, const std::string &fullPathInBundle);
-
     // Initialize a minimal placeholder texture
-    static void InitPlaceholder(SDL_Renderer *renderer);
+    static void InitPlaceholder(SDL_Renderer &renderer);
     
-    //! brauchen noch einen std::queue  string 
+    // Load Textures
+    static void TextureProcessLoad(SDL_Renderer &renderer);
 
-    //! eine funktion die dann die lsite abarbeitet, wenn es kein paket gibt dann kommt ein platzt halter 
+    // UNload Textures
+    static void TextureProcessUnload();
 
 private:
     static std::unordered_map<std::string, Texture *> textures;
+    static std::queue<std::string> textureLoadingQueue;
 };

@@ -6,27 +6,27 @@
 class JsonConfigHandler {
 public:
 
-    static void load();
+    static void Load();
  
-    static void save();
+    static void Save();
 
     template<typename T>
-    static T get(const std::string& key, const T& defaultValue);
+    static T Get(const std::string& key, const T& defaultValue);
 
     template<typename T>
-    static void set(const std::string& key, const T& value);
+    static void Set(const std::string& key, const T& value);
 
 private:
     static nlohmann::json j;
     static std::filesystem::path path;
 
 
-    static std::filesystem::path getConfigPath();
+    static std::filesystem::path GetConfigPath();
 
 };
 
 template<typename T>
-T JsonConfigHandler::get(const std::string& key, const T& defaultValue) {
+T JsonConfigHandler::Get(const std::string& key, const T& defaultValue) {
     if (!j.contains(key)) {
         j[key] = defaultValue;
     }
@@ -34,6 +34,6 @@ T JsonConfigHandler::get(const std::string& key, const T& defaultValue) {
 }
 
 template<typename T>
-void JsonConfigHandler::set(const std::string& key, const T& value) {
+void JsonConfigHandler::Set(const std::string& key, const T& value) {
     j[key] = value;
 }

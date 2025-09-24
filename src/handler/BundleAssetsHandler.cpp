@@ -8,9 +8,9 @@
 
 std::unordered_map<std::string, BundleEntry *> BundleAssetsHandler::bundleEntries;
 
-bool BundleAssetsHandler::loadBundle()
+bool BundleAssetsHandler::LoadBundle()
 {
-    clearAllFiles(); // delete previous entries
+    ClearAllFiles(); // delete previous entries
 
     for (const auto &entry : std::filesystem::recursive_directory_iterator(exeDir))
     {
@@ -75,7 +75,7 @@ bool BundleAssetsHandler::loadBundle()
     return true;
 }
 
-bool BundleAssetsHandler::removeFile(const std::string &filePath)
+bool BundleAssetsHandler::RemoveFile(const std::string &filePath)
 {
     auto it = bundleEntries.find(filePath);
     if (it != bundleEntries.end())
@@ -87,7 +87,7 @@ bool BundleAssetsHandler::removeFile(const std::string &filePath)
     return false;
 }
 
-void BundleAssetsHandler::clearAllFiles()
+void BundleAssetsHandler::ClearAllFiles()
 {
     for (auto &pair : bundleEntries)
     {
@@ -96,7 +96,7 @@ void BundleAssetsHandler::clearAllFiles()
     bundleEntries.clear();
 }
 
-void BundleAssetsHandler::printAllEntries()
+void BundleAssetsHandler::PrintAllEntries()
 {
     std::cout << "Bundle contains " << bundleEntries.size() << " entries:\n";
     for (const auto &pair : bundleEntries)
@@ -112,7 +112,7 @@ void BundleAssetsHandler::printAllEntries()
     }
 }
 
-std::vector<uint8_t> BundleAssetsHandler::getFileData(const std::string &fullPathInBundle)
+std::vector<uint8_t> BundleAssetsHandler::GetFileData(const std::string &fullPathInBundle)
 {
     auto it = BundleAssetsHandler::bundleEntries.find(fullPathInBundle);
     if (it == BundleAssetsHandler::bundleEntries.end())
