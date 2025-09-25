@@ -6,6 +6,14 @@
 #include <string>
 #include <iostream>
 #include <queue>
+#include <unordered_set>
+
+
+
+
+
+
+
 // Helper structure for textures
 struct Texture
 {
@@ -22,7 +30,7 @@ class TextureManager
 {
 public:
     // AddTexture a texture
-    static void AddTexture(SDL_Renderer &renderer, const std::string &fullPathInBundle);
+    static void AddTexture(SDL_Renderer &renderer, const std::string &id);
 
     // GetTexture a texture
     static SDL_Texture *GetTexture(const std::string &id);
@@ -48,4 +56,5 @@ public:
 private:
     static std::unordered_map<std::string, Texture *> textures;
     static std::queue<std::string> textureLoadingQueue;
+    static std::unordered_set<std::string> queueSet;
 };
