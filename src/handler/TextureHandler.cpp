@@ -1,4 +1,5 @@
 #include "TextureHandler.h"
+#include "AppWindow.h"
 #include "BundleAssetsHandler.h"
 #include <SDL3_image/SDL_image.h>
 #include <vector>
@@ -8,7 +9,7 @@
 std::unordered_map<std::string, Texture *> TextureManager::textures;
 
 // Queue for textures that should be loaded
-std::queue<std::string> TextureManager::textureLoadingQueue;
+std::queue<std::pair<std::string, std::vector<std::string>>> TextureManager::textureLoadingQueue;
 
 // Set for checking if a texture is already in the loading queue
 std::unordered_set<std::string> TextureManager::queueSet;
@@ -27,7 +28,7 @@ Texture::~Texture()
 }
 
 // Adds a texture to the manager if it doesn't already exist
-void TextureManager::AddTexture(SDL_Renderer &renderer, const std::string &id)
+void TextureManager::AddTexture(SDL_Renderer &renderer, int &textureQuality, std::string &id, std::vector<std::string> &paths)
 {
     // Check if texture already exists
     auto it = textures.find(id);
@@ -36,39 +37,60 @@ void TextureManager::AddTexture(SDL_Renderer &renderer, const std::string &id)
         return;
     }
 
-    // Load texture data from bundle
-    std::vector<uint8_t> data = BundleAssetsHandler::GetFileData(id);
-    if (data.empty())
+
+    size_t index = static_cast<size_t>(textureQuality);
+    if (index >= paths.size())
     {
+        index = paths.size() - 1;
+    }
+
+    for (int i = static_cast<int>(index); i >= 0; --i)
+    {
+        // Load texture data from bundle
+        std::vector<uint8_t> data = BundleAssetsHandler::GetFileData({paths[i]});
+        if (data.empty())
+        {
+            continue;
+        }
+      
+        // Create SDL IO stream from memory
+        SDL_IOStream *io = SDL_IOFromConstMem(data.data(), static_cast<int>(data.size()));
+        if (!io)
+        {
+            continue;
+        }
+      
+        // SDL functions expect a pointer, so use &renderer
+        SDL_Texture *texture = IMG_LoadTexture_IO(&renderer, io, true);
+        if (!texture)
+        {
+            std::cerr << "SDL_CreateTextureFromSurface failed: " << SDL_GetError() << "\n";
+            continue;
+        }
+        // Store the texture in the manager
+        textures[id] = new Texture(texture, texture->w, texture->h);
         return;
     }
 
-    // Create SDL IO stream from memory
-    SDL_IOStream *io = SDL_IOFromConstMem(data.data(), static_cast<int>(data.size()));
-    if (!io)
-    {
-        return;
-    }
-    // SDL functions expect a pointer, so use &renderer
-    SDL_Texture *texture = IMG_LoadTexture_IO(&renderer, io, true);
-    if (!texture)
-    {
-        std::cerr << "IMG_LoadTexture_IO error: " << SDL_GetError() << "\n";
-        return;
-    }
 
-    // Store the texture in the manager
-    textures[id] = new Texture(texture, texture->w, texture->h);
+    // No Tex found => backup emptyTexture
+    SDL_Texture *tex = EmptyTexture(renderer);
+    if (!tex)
+    {
+        return;
+    }
+    textures[id] = new Texture(tex, 2, 2);
 }
 
 // Returns the SDL_Texture pointer for a given id, or a placeholder if not loaded yet
-SDL_Texture *TextureManager::GetTexture(const std::string &id)
+SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, const std::vector<std::string> &paths)
 {
 
     // Search for texture and return it if found
     auto it = textures.find(id);
     if (it != textures.end())
     {
+     
         return it->second->tex;
     }
     else
@@ -78,7 +100,7 @@ SDL_Texture *TextureManager::GetTexture(const std::string &id)
         if (it == queueSet.end())
         {
             // Add to loading queue if not already present
-            textureLoadingQueue.push(id);
+            textureLoadingQueue.push({id, paths});
             queueSet.insert(id);
         }
 
@@ -86,18 +108,18 @@ SDL_Texture *TextureManager::GetTexture(const std::string &id)
         auto placeholder = textures.find("__placeholder__");
         if (placeholder != textures.end())
         {
+            std::cout<< "Placeholder" << "\n";
             return placeholder->second->tex;
         }
 
         // No texture available
         return nullptr;
     }
-
     return nullptr;
 }
 
 // Returns the size (width, height) of a texture, or (0, 0) if not found
-std::pair<int, int> TextureManager::GetSize(const std::string &id)
+std::pair<int, int> TextureManager::GetSize(std::string &id)
 {
     auto it = textures.find(id);
     if (it != textures.end())
@@ -109,7 +131,7 @@ std::pair<int, int> TextureManager::GetSize(const std::string &id)
 }
 
 // Deletes a texture from the manager and frees its memory
-void TextureManager::DeleteTexture(const std::string &id)
+void TextureManager::DeleteTexture(std::string &id)
 {
     auto it = textures.find(id);
     if (it != textures.end())
@@ -133,48 +155,57 @@ void TextureManager::ClearAll()
 // Creates and stores a minimal placeholder texture (used when requested texture is not loaded yet)
 void TextureManager::InitPlaceholder(SDL_Renderer &renderer)
 {
-    const int w = 2;
-    const int h = 2;
-    Uint32 pixels[w * h] = {
-        0x00000000, 0x00000000,
-        0x00000000, 0x00000000};
+    SDL_Texture *tex = EmptyTexture(renderer);
+    if (!tex)
+    {
+        return;
+    }
+    textures["__placeholder__"] = new Texture(tex, 2, 2);
+}
 
-    // Create a 2x2 transparent surface
+SDL_Texture *TextureManager::EmptyTexture(SDL_Renderer &renderer)
+{
+
+    constexpr int  w = 2; 
+    constexpr int h = 2;
+    Uint32 pixels[4] = {0x00000000, 0x00000000, 0x00000000, 0x00000000};
+
     SDL_Surface *surface = SDL_CreateSurfaceFrom(w, h, SDL_PIXELFORMAT_RGBA32, pixels, w * sizeof(Uint32));
     if (!surface)
     {
-        std::cerr << "Failed to create placeholder surface: " << SDL_GetError() << "\n";
-        return;
+        std::cerr << "Failed to create empty surface: " << SDL_GetError() << "\n";
+        return nullptr;
     }
 
-    // Create a texture from the surface
     SDL_Texture *tex = SDL_CreateTextureFromSurface(&renderer, surface);
     SDL_DestroySurface(surface);
 
     if (!tex)
     {
-        std::cerr << "Failed to create placeholder texture: " << SDL_GetError() << "\n";
-        return;
+        std::cerr << "Failed to create empty texture: " << SDL_GetError() << "\n";
+        return nullptr;
     }
 
-    // Store the placeholder texture
-    textures["__placeholder__"] = new Texture(tex, w, h);
+    return tex;
 }
 
 // Loads the next texture in the loading queue (should be called regularly, e.g. once per frame)
-void TextureManager::TextureProcessLoad(SDL_Renderer &renderer)
+void TextureManager::TextureLazyLoad(SDL_Renderer &renderer, int &textureQuality)
 {
     if (!textureLoadingQueue.empty())
     {
-        const std::string filename = textureLoadingQueue.front();
-        TextureManager::AddTexture(renderer, filename);
+        std::cout << "Load Texture with lazy loader" << "\n";
+        auto [id, path] = textureLoadingQueue.front();
         textureLoadingQueue.pop();
-        queueSet.erase(filename);
+        TextureManager::AddTexture(renderer, textureQuality, id, path);
+
+        queueSet.erase(id);
     }
 }
 
 // Unloads textures that are no longer needed (not implemented yet)
 void TextureManager::TextureProcessUnload()
 {
+
     // Not implemented yet
 }

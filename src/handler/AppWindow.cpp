@@ -2,11 +2,11 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <iostream>
-#include "WindowHandler.h"
+#include "AppWindow.h"
 #include "JsonConfigHandler.h"
 #include "TextureHandler.h"
 
-WindowHandler::WindowHandler()
+AppWindow::AppWindow()
 {
 
     JsonConfigHandler::LoadJson();
@@ -49,7 +49,7 @@ WindowHandler::WindowHandler()
     }
 }
 
-WindowHandler::~WindowHandler()
+AppWindow::~AppWindow()
 {
     JsonConfigHandler::LoadJson();
     JsonConfigHandler::SetJsonValue("fullscreen", fullscreenEnabled);
@@ -72,7 +72,10 @@ WindowHandler::~WindowHandler()
 
 }
 
-void WindowHandler::HandleEvent(const SDL_Event &event)
+
+
+
+void AppWindow::HandleEvent(const SDL_Event &event)
 {
 
     if (event.type == SDL_EVENT_QUIT)
@@ -128,7 +131,7 @@ void WindowHandler::HandleEvent(const SDL_Event &event)
     }
 }
 
-void WindowHandler::UpdateTime()
+void AppWindow::UpdateTime()
 {
     Uint64 now = SDL_GetTicksNS();
     deltaTime = (now - lastCounter) / 1'000'000'000.0;
@@ -136,7 +139,7 @@ void WindowHandler::UpdateTime()
     frameStart = now;
 }
 
-void WindowHandler::LimitFPS()
+void AppWindow::LimitFPS()
 {
     if (!vsyncEnabled && targetFPS > 0)
     {
@@ -158,7 +161,7 @@ void WindowHandler::LimitFPS()
 
 }
 
-// void WindowHandler::LimitFPS()
+// void AppWindow::LimitFPS()
 // {
 //     if (!vsyncEnabled && targetFPS > 0)
 //     {
@@ -185,7 +188,7 @@ void WindowHandler::LimitFPS()
 
 
 
-void WindowHandler::ShowDeltaTime()
+void AppWindow::ShowDeltaTime()
 {
     double fps = (deltaTime > 0.0) ? 1.0 / deltaTime : 0.0;
     std::cout << "\rDeltaTime: " << deltaTime

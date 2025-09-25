@@ -4,15 +4,9 @@
 #include <SDL3_image/SDL_image.h>
 #include <unordered_map>
 #include <string>
-#include <iostream>
 #include <queue>
 #include <unordered_set>
-
-
-
-
-
-
+#include "AppWindow.h"
 
 // Helper structure for textures
 struct Texture
@@ -29,32 +23,40 @@ struct Texture
 class TextureManager
 {
 public:
-    // AddTexture a texture
-    static void AddTexture(SDL_Renderer &renderer, const std::string &id);
-
     // GetTexture a texture
-    static SDL_Texture *GetTexture(const std::string &id);
+    template <typename... stringVT>
+    static SDL_Texture *GetTexture(const std::string &id, stringVT... paths)
+    {
+        std::vector<std::string> vec = {paths...};
+        return GetTextureInternal(id, vec);
+    }
 
-    // GetTexture the size of a texture
-    static std::pair<int, int> GetSize(const std::string &id);
-
-    // DeleteTexture a texture
-    static void DeleteTexture(const std::string &id);
-
-    // Clear all textures
-    static void ClearAll();
-
-    // Initialize a minimal placeholder texture
-    static void InitPlaceholder(SDL_Renderer &renderer);
-    
     // Load Textures
-    static void TextureProcessLoad(SDL_Renderer &renderer);
+    static void TextureLazyLoad(SDL_Renderer &renderer,int &textureQuality);
 
     // UNload Textures
     static void TextureProcessUnload();
 
+    // Initialize a minimal placeholder texture
+    static void InitPlaceholder(SDL_Renderer &renderer);
+      // Clear all textures
+    static void ClearAll();
 private:
+    // AddTexture a texture
+    static void AddTexture(SDL_Renderer &renderer, int &textureQuality, std::string &id, std::vector<std::string> &paths);
+
+    static SDL_Texture *GetTextureInternal(const std::string &id, const std::vector<std::string> &paths);
+
+    // GetTextureInternal the size of a texture
+    static std::pair<int, int> GetSize(std::string &id);
+
+    // DeleteTexture a texture
+    static void DeleteTexture(std::string &id);
+
+    static SDL_Texture* EmptyTexture(SDL_Renderer &renderer);
+   
+
     static std::unordered_map<std::string, Texture *> textures;
-    static std::queue<std::string> textureLoadingQueue;
+    static std::queue<std::pair<std::string, std::vector<std::string>>> textureLoadingQueue;
     static std::unordered_set<std::string> queueSet;
 };

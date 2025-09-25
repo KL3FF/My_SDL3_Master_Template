@@ -58,15 +58,37 @@ bool BundleAssetsHandler::LoadBundle()
             file.read(reinterpret_cast<char *>(&size), 4);
 
             std::string name = std::filesystem::path(storedPath).filename().string();
-            std::string extension = std::filesystem::path(storedPath).extension().string();
             std::string pakPath = std::filesystem::relative(path, exeDir).string();
 
-            if (!extension.empty() && extension[0] == '.')
-            {
+            std::string extension = std::filesystem::path(storedPath).extension().string();
+            if (!extension.empty() && extension[0] == '.'){
                 extension = extension.substr(1);
             }
 
-            bundleEntries[storedPath] = new BundleEntry{offset, size, storedPath, pakPath, name, extension};
+            std::string typeKey;
+            std::transform(extension.begin(), extension.end(), extension.begin(), ::tolower);
+            if (extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "bmp" || extension == "webp")
+            {
+                typeKey = "tex";
+            }
+            else if (extension == "wav" || extension == "mp3" || extension == "ogg")
+            {
+                typeKey = "mus";
+            }
+            else if (extension == "ttf" || extension == "otf")
+            {
+                typeKey = "font";
+            }
+            else if (extension == "json" || extension == "cfg" || extension == "ini" || extension == "glsl")
+            {
+                typeKey = "cfg";
+            }
+            else
+            {
+                typeKey = "dat"; // Default 
+            }
+
+            bundleEntries[storedPath] = new BundleEntry{offset, size, storedPath, pakPath, name, typeKey};
         }
 
         file.close();
@@ -114,8 +136,10 @@ void BundleAssetsHandler::PrintAllEntries()
 
 std::vector<uint8_t> BundleAssetsHandler::GetFileData(const std::string &fullPathInBundle)
 {
+
+
     auto it = BundleAssetsHandler::bundleEntries.find(fullPathInBundle);
-    if (it == BundleAssetsHandler::bundleEntries.end())
+    if (it == bundleEntries.end())
     {
         return {};
     }
@@ -124,15 +148,15 @@ std::vector<uint8_t> BundleAssetsHandler::GetFileData(const std::string &fullPat
 
     std::filesystem::path fullPakPath = std::filesystem::path(exeDir) / entry->pakPath;
     std::ifstream pakFile(fullPakPath, std::ios::binary);
-
-    if (!pakFile.is_open()){
+    if (!pakFile.is_open())
+    {
         return {};
     }
-  
+
     pakFile.seekg(entry->offset, std::ios::beg);
 
     std::vector<uint8_t> data(entry->size);
     pakFile.read(reinterpret_cast<char *>(data.data()), entry->size);
-
+ 
     return data;
 }

@@ -1,13 +1,14 @@
 #pragma once
 #include <SDL3/SDL.h>
 
-class WindowHandler
+
+class AppWindow
 {
 public:
-    WindowHandler();
-    ~WindowHandler();
+    AppWindow();
+    ~AppWindow();
 
-    SDL_Window *GetWindow() const { return window; }
+    SDL_Window &GetWindow() const { return *window; }
     SDL_Renderer &GetRenderer() const { return *renderer; }
 
     void HandleEvent(const SDL_Event &event);
@@ -18,6 +19,7 @@ public:
     bool IsVSYNC() const { return vsyncEnabled; }
     bool IsFS() const { return fullscreenEnabled; }
 
+    int &TextureQuality() { return textureQuality; }
     double &DeltaTime() { return deltaTime; }
     void UpdateTime();
     void ShowDeltaTime();
@@ -36,7 +38,7 @@ private:
 
     int screenWidth = 1280;
     int screenHeight = 720;
-
+    int textureQuality = 0;
     int fpsOptions[5] = {30, 60, 120, 144, 0};
     int fpsIndex = 1;
 

@@ -1,13 +1,17 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <SDL3_image/SDL_image.h>
+
 #include <iostream>
 #include "BundleAssetsHandler.h"
-#include "WindowHandler.h"
+#include "AppWindow.h"
 #include "ConfigInfo.h"
 #include "TextureHandler.h"
+
 int main(int argc, char *argv[])
 {
+
     initExeDir();
     std::cerr << exeDir << "\n";
     // Bundle load
@@ -15,13 +19,13 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-    // BundleAssetsHandler::PrintAllEntries();
+    BundleAssetsHandler::PrintAllEntries();
 
 
-    BundleAssetsHandler::GetFileData("assets/sprites/mid/hero/test3.png");
 
 
-    WindowHandler window;
+
+    AppWindow window;
     SDL_Event event;
     TextureManager::InitPlaceholder(window.GetRenderer());
 
@@ -59,33 +63,28 @@ int main(int argc, char *argv[])
 
         // --- Render ---
 
-        // BOX TEST
-        rectX += speed * dt;
-        if (rectX > 1640)
-        {
-            rectX = -rectW;
-        }
-        SDL_FRect rect;
-        rect.x = rectX;
-        rect.y = rectY;
-        rect.w = 100.0f;
-        rect.h = 100.0f;
-        SDL_SetRenderDrawColor(&window.GetRenderer(), 255, 0, 0, 255);
-        SDL_RenderFillRect(&window.GetRenderer(), &rect);
-
+     
         // BOX TEST
         rectX2 += speed * 1.1 * dt;
         if (rectX2 > 1640)
         {
             rectX2 = -rectW;
         }
-        SDL_FRect rect2;
-        rect2.x = rectX2;
-        rect2.y = rectY2;
-        rect2.w = 100.0f;
-        rect2.h = 100.0f;
-        SDL_SetRenderDrawColor(&window.GetRenderer(), 255, 230, 0, 255);
-        SDL_RenderFillRect(&window.GetRenderer(), &rect2);
+        SDL_FRect src2 = { 0, 0, 128, 128 };
+        SDL_FRect dst2 = { rectX2, rectY2, 128, 128 };
+        SDL_RenderTexture(&window.GetRenderer(), TextureManager::GetTexture("xxxxxxxxxxxx","assets/sprites/high/hero/test2.png"), &src2, &dst2);
+
+      // BOX TEST
+        rectX += speed * dt;
+        if (rectX > 1640)
+        {
+            rectX = -rectW;
+        }
+        SDL_FRect src = { 0, 0, 128, 128 };
+        SDL_FRect dst = { rectX, rectY, 128, 128 };
+        SDL_RenderTexture(&window.GetRenderer(), TextureManager::GetTexture("xxxxxxxxxxxx","assets/sprites/high/hero/test3.bmp"), &src, &dst);
+
+   
 
         // --- Screen Update ---
         SDL_RenderPresent(&window.GetRenderer());
@@ -96,10 +95,10 @@ int main(int argc, char *argv[])
         // --- DeltaTime & FPS Anzeige ---
         window.ShowDeltaTime();
 
-        TextureManager::TextureProcessLoad(window.GetRenderer());
+        TextureManager::TextureLazyLoad(window.GetRenderer(),window.TextureQuality());
     }
 
-        TextureManager::ClearAll();
-        BundleAssetsHandler::ClearAllFiles();
+    TextureManager::ClearAll();
+    BundleAssetsHandler::ClearAllFiles();
     return 0;
 }
