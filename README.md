@@ -18,6 +18,11 @@ This project is a **cross-platform SDL3 C++ projects**. It allows you to quickly
 ## Project Progress
 
 ```
+Windows                         ██████░░░░ 60%  🟡
+Linux                           ██████████ 100% 🟢
+Mac                             ░░░░░░░░░░ 0%   🔴
+Android                         ░░░░░░░░░░ 0%   🔴
+
 Program Loop                    ██████░░░░ 60%  🟡
 Texture Manager                 █████████░ 90%  🟢
 PythonBundleAssetsMaker         ██████████ 100% 🟢
