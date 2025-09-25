@@ -69,10 +69,7 @@ AppWindow::~AppWindow()
     }
 
     SDL_Quit();
-
 }
-
-
 
 
 void AppWindow::HandleEvent(const SDL_Event &event)

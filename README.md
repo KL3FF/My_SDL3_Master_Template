@@ -15,18 +15,18 @@ This project is a **cross-platform SDL3 C++ projects**. It allows you to quickly
 
 ---
 
-## Project Progress
+## Project Progress / Current Tasks
 
 ```
 Windows                         ██████░░░░ 60%  🟡
 Linux                           ██████████ 100% 🟢
 Mac                             ░░░░░░░░░░ 0%   🔴
-Android                         ░░░░░░░░░░ 0%   🔴
 
 Program Loop                    ██████░░░░ 60%  🟡
 Texture Manager                 █████████░ 90%  🟢
 PythonBundleAssetsMaker         ██████████ 100% 🟢
 BuildAssetsHandler              ████████░░ 80%  🟢
+Lazy Loader                     ████████░░ 80%  🟢
 JSON Config Loader              ███████░░░ 70%  🟡
 Instance Manager                ███░░░░░░░ 30%  🔴
 Makefile Shortcuts              ████████░░ 70%  🟢
