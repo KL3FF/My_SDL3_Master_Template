@@ -32,17 +32,6 @@ Event Manager                   ░░░░░░░░░░ 0%   🔴
 
 ---
 
-Perfekt! Dann formuliere ich den gesamten `.pak`-Abschnitt in **englischer Version**, sauber und verständlich, inklusive:
-
-* Automatisches Bundling beim Build
-* Rekursive Erstellung von `.pak`-Dateien
-* Regeln, welche Dateien in welche `.pak` kommen
-* Beispiel mit Pfaden, Offsets und Größen
-
-Hier ist die fertige Version für dein README:
-
----
-
 ## Creating `.pak` Files
 
 Assets are automatically bundled into `.pak` files during the build process. Each folder inside the assets directory becomes a separate `.pak` file. The build system goes **recursively through all subfolders** of the `assets` folder. For each folder:
