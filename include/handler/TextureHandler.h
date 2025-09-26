@@ -7,7 +7,7 @@
 #include <queue>
 #include <unordered_set>
 #include "AppWindow.h"
-
+#include "WindowConfig.h"
 // Helper structure for textures
 struct Texture
 {
@@ -27,12 +27,20 @@ public:
     template <typename... stringVT>
     static SDL_Texture *GetTexture(const std::string &id, stringVT... paths)
     {
-        std::vector<std::string> vec = {paths...};
-        return GetTextureInternal(id, vec);
+        std::vector<std::string> vecPaths = {paths...};
+        return GetTextureInternal(id, vecPaths);
     }
 
+    template <typename... stringVT>
+    static void *AddTexture(SDL_Renderer &renderer, std::string &id, stringVT... paths)
+    {
+        std::vector<std::string> vecPaths = {paths...};
+        TextureManager::AddTextureInternal(renderer, id, vecPaths);
+    }
+
+
     // Load Textures
-    static void TextureLazyLoad(SDL_Renderer &renderer,int &textureQuality);
+    static void TextureLazyLoad(SDL_Renderer &renderer);
 
     // UNload Textures
     static void TextureProcessUnload();
@@ -42,10 +50,10 @@ public:
       // Clear all textures
     static void ClearAll();
 private:
-    // AddTexture a texture
-    static void AddTexture(SDL_Renderer &renderer, int &textureQuality, std::string &id, std::vector<std::string> &paths);
+    // AddTextureInternal a texture
+    static void AddTextureInternal(SDL_Renderer &renderer,  std::string &id, std::vector<std::string> &paths);
 
-    static SDL_Texture *GetTextureInternal(const std::string &id, const std::vector<std::string> &paths);
+    static SDL_Texture *GetTextureInternal(const std::string &id,  std::vector<std::string> &paths);
 
     // GetTextureInternal the size of a texture
     static std::pair<int, int> GetSize(std::string &id);

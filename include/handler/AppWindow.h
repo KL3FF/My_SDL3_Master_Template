@@ -16,10 +16,6 @@ public:
     void Render();
 
     bool IsRunning() const { return isRunning; }
-    bool IsVSYNC() const { return vsyncEnabled; }
-    bool IsFS() const { return fullscreenEnabled; }
-
-    int &TextureQuality() { return textureQuality; }
     double &DeltaTime() { return deltaTime; }
     void UpdateTime();
     void ShowDeltaTime();
@@ -34,17 +30,8 @@ private:
 
     double deltaTime = 0.0;
     double targetFPS = 60.0;
-    double targetFrameTime = 16.6667;
 
-    int screenWidth = 1280;
-    int screenHeight = 720;
-    int textureQuality = 0;
-    int fpsOptions[5] = {30, 60, 120, 144, 0};
-    int fpsIndex = 1;
 
     SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
-
-    bool vsyncEnabled = false;
-    bool fullscreenEnabled = false;
     bool isRunning = true;
 };

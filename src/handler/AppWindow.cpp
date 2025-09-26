@@ -3,26 +3,23 @@
 #include <SDL3/SDL_main.h>
 #include <iostream>
 #include "AppWindow.h"
-#include "JsonConfigHandler.h"
+#include "WindowConfig.h"
 #include "TextureHandler.h"
 
 AppWindow::AppWindow()
 {
 
-    JsonConfigHandler::LoadJson();
-    fullscreenEnabled = JsonConfigHandler::GetJsonValue("fullscreen", false);
-    vsyncEnabled = JsonConfigHandler::GetJsonValue("vsync", false);
-    screenWidth  = JsonConfigHandler::GetJsonValue("width", 1280);
-    screenHeight = JsonConfigHandler::GetJsonValue("height", 720);
-    JsonConfigHandler::SaveJson();
+    WindowConfig::LoadConfig();
 
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow(title, screenWidth, screenHeight, flags);
-
+    
+    window = SDL_CreateWindow(title, WindowConfig::getScreenWidth(), WindowConfig::getScreenHeight(), flags);
+    
     renderer = SDL_CreateRenderer(window, NULL);
-    SDL_SetRenderVSync(renderer, vsyncEnabled ? 1 : 0);
+    
+    SDL_SetRenderVSync(renderer, WindowConfig::isVSyncEnabled() ? 1 : 0);
 
-    if (!fullscreenEnabled)
+    if (!WindowConfig::isFullscreen())
     {
         SDL_SetWindowFullscreen(window, 0);
     }
@@ -39,9 +36,6 @@ AppWindow::AppWindow()
         isRunning = false;
     }
 
-
-
-
     if (window == NULL)
     {
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
@@ -51,12 +45,7 @@ AppWindow::AppWindow()
 
 AppWindow::~AppWindow()
 {
-    JsonConfigHandler::LoadJson();
-    JsonConfigHandler::SetJsonValue("fullscreen", fullscreenEnabled);
-    JsonConfigHandler::SetJsonValue("vsync", vsyncEnabled);
-    JsonConfigHandler::SetJsonValue("width", screenWidth);
-    JsonConfigHandler::SetJsonValue("height", screenHeight);
-    JsonConfigHandler::SaveJson();
+    WindowConfig::SaveConfig();
 
     if (renderer)
     {
@@ -87,11 +76,10 @@ void AppWindow::HandleEvent(const SDL_Event &event)
 
     if (event.type == SDL_EVENT_WINDOW_RESIZED)
     {
-        screenWidth = event.window.data1;
-        screenHeight = event.window.data2;
-        std::cout << "Window resized: " << screenHeight << "x" << screenWidth << std::endl;
+        WindowConfig::setScreenHeight(event.window.data2);
+        WindowConfig::setScreenWidth(event.window.data1);
+        std::cout << "Window resized: " << WindowConfig::getScreenWidth() << "x" << WindowConfig::getScreenHeight() << std::endl;
     }
-
     if (event.type == SDL_EVENT_KEY_DOWN)
     {
         if (event.key.key == SDLK_ESCAPE)
@@ -100,9 +88,10 @@ void AppWindow::HandleEvent(const SDL_Event &event)
         }
         if (event.key.key == SDLK_F11)
         {
+            
 
-            fullscreenEnabled = !fullscreenEnabled;
-            if (!fullscreenEnabled)
+            WindowConfig::setFullscreen(!WindowConfig::isFullscreen());
+            if (!WindowConfig::isFullscreen())
             {
                 SDL_SetWindowFullscreen(window, 0);
             }
@@ -113,17 +102,16 @@ void AppWindow::HandleEvent(const SDL_Event &event)
         }
         if (event.key.key == SDLK_F)
         {
-            fpsIndex = (fpsIndex + 1) % 5;
-            targetFPS = fpsOptions[fpsIndex];
-            targetFrameTime = (targetFPS > 0) ? 1000.0 / targetFPS : 0.0;
+            
+            WindowConfig::setFpsIndex((WindowConfig::getFpsIndex() + 1) % 5);
             std::cout << "\nFPS set to "
-                      << (targetFPS == 0 ? "∞" : std::to_string((int)targetFPS))
+                      << (WindowConfig::getTargetFps() == 0 ? "∞" : std::to_string((int)WindowConfig::getTargetFps()))
                       << std::endl;
         }
         if (event.key.key == SDLK_V)
         {
-            vsyncEnabled = !vsyncEnabled;
-            SDL_SetRenderVSync(renderer, vsyncEnabled ? 1 : 0);
+            WindowConfig::setVSync(!WindowConfig::isVSyncEnabled());
+            SDL_SetRenderVSync(renderer, WindowConfig::isVSyncEnabled() ? 1 : 0);
         }
     }
 }
@@ -138,10 +126,11 @@ void AppWindow::UpdateTime()
 
 void AppWindow::LimitFPS()
 {
-    if (!vsyncEnabled && targetFPS > 0)
+    
+    if (!WindowConfig::isVSyncEnabled() && WindowConfig::getTargetFps() > 0)
     {
         Uint64 now = SDL_GetTicksNS();
-        double targetFrameTimeNs = 1'000'000'000.0 / targetFPS;
+        double targetFrameTimeNs = 1'000'000'000.0 / WindowConfig::getTargetFps();
         double elapsed = now - frameStart;
 
         if (elapsed < targetFrameTimeNs){
@@ -155,8 +144,23 @@ void AppWindow::LimitFPS()
 //         Selleping sleep so that the CPU can relax
 //         SDL_Delay(1);
 //     }
-
 }
+
+void AppWindow::ShowDeltaTime()
+{
+    double fps = (deltaTime > 0.0) ? 1.0 / deltaTime : 0.0;
+    std::cout << "\rDeltaTime: " << deltaTime
+              << " s | FPS: " << (int)fps
+              << " | VSync: " << (WindowConfig::isVSyncEnabled() ? "ON " : "OFF")
+              << "   " << std::flush;
+}
+
+
+
+
+
+
+
 
 // void AppWindow::LimitFPS()
 // {
@@ -182,14 +186,3 @@ void AppWindow::LimitFPS()
 //     }
 // }
 
-
-
-
-void AppWindow::ShowDeltaTime()
-{
-    double fps = (deltaTime > 0.0) ? 1.0 / deltaTime : 0.0;
-    std::cout << "\rDeltaTime: " << deltaTime
-              << " s | FPS: " << (int)fps
-              << " | VSync: " << (vsyncEnabled ? "ON " : "OFF")
-              << "   " << std::flush;
-}

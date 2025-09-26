@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "JsonConfigHandler.h"
-#include "ConfigInfo.h"
+#include "AppInfo.h"
 
 nlohmann::json JsonConfigHandler::j;
 std::filesystem::path JsonConfigHandler::path;

@@ -1,9 +1,11 @@
 #include "TextureHandler.h"
 #include "AppWindow.h"
+#include "WindowConfig.h"
 #include "BundleAssetsHandler.h"
 #include <SDL3_image/SDL_image.h>
 #include <vector>
 #include <unordered_set>
+
 
 // All loaded textures
 std::unordered_map<std::string, Texture *> TextureManager::textures;
@@ -28,7 +30,7 @@ Texture::~Texture()
 }
 
 // Adds a texture to the manager if it doesn't already exist
-void TextureManager::AddTexture(SDL_Renderer &renderer, int &textureQuality, std::string &id, std::vector<std::string> &paths)
+void TextureManager::AddTextureInternal(SDL_Renderer &renderer,  std::string &id, std::vector<std::string> &paths)
 {
     // Check if texture already exists
     auto it = textures.find(id);
@@ -38,7 +40,7 @@ void TextureManager::AddTexture(SDL_Renderer &renderer, int &textureQuality, std
     }
 
 
-    size_t index = static_cast<size_t>(textureQuality);
+    size_t index = static_cast<size_t>(WindowConfig::getTextureQuality());
     if (index >= paths.size())
     {
         index = paths.size() - 1;
@@ -83,7 +85,7 @@ void TextureManager::AddTexture(SDL_Renderer &renderer, int &textureQuality, std
 }
 
 // Returns the SDL_Texture pointer for a given id, or a placeholder if not loaded yet
-SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, const std::vector<std::string> &paths)
+SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vector<std::string> &paths)
 {
 
     // Search for texture and return it if found
@@ -190,14 +192,14 @@ SDL_Texture *TextureManager::EmptyTexture(SDL_Renderer &renderer)
 }
 
 // Loads the next texture in the loading queue (should be called regularly, e.g. once per frame)
-void TextureManager::TextureLazyLoad(SDL_Renderer &renderer, int &textureQuality)
+void TextureManager::TextureLazyLoad(SDL_Renderer &renderer)
 {
     if (!textureLoadingQueue.empty())
     {
         std::cout << "Load Texture with lazy loader" << "\n";
         auto [id, path] = textureLoadingQueue.front();
         textureLoadingQueue.pop();
-        TextureManager::AddTexture(renderer, textureQuality, id, path);
+        TextureManager::AddTextureInternal(renderer, id, path);
 
         queueSet.erase(id);
     }

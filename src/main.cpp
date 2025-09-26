@@ -6,13 +6,15 @@
 #include <iostream>
 #include "BundleAssetsHandler.h"
 #include "AppWindow.h"
-#include "ConfigInfo.h"
+#include "WindowConfig.h"
+#include "AppInfo.h"
 #include "TextureHandler.h"
+#include "WindowConfig.h"
 
 int main(int argc, char *argv[])
 {
+    init(); 
 
-    initExeDir();
     std::cerr << exeDir << "\n";
     // Bundle load
     if (!BundleAssetsHandler::LoadBundle())
@@ -95,7 +97,7 @@ int main(int argc, char *argv[])
         // --- DeltaTime & FPS Anzeige ---
         window.ShowDeltaTime();
 
-        TextureManager::TextureLazyLoad(window.GetRenderer(),window.TextureQuality());
+        TextureManager::TextureLazyLoad(window.GetRenderer());
     }
 
     TextureManager::ClearAll();

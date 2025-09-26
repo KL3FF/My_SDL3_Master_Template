@@ -20,7 +20,6 @@ private:
     static nlohmann::json j;
     static std::filesystem::path path;
 
-
     static std::filesystem::path GetConfigPath();
 
 };

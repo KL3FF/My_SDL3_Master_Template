@@ -1,6 +1,6 @@
 #include "BundleAssetsHandler.h"
-#include "ConfigInfo.h"
-
+#include "WindowConfig.h"
+#include "AppInfo.h"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
