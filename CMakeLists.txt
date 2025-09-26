@@ -17,8 +17,8 @@ set(BIN_DIR_WINDOWS_MSVC  "bin/windows-msvc")
 
 # Conig.h.in + placeholder => congfig.h + Cmake Variables
 configure_file(
-    ${CMAKE_SOURCE_DIR}/include/config/ConfigInfo.h.in
-    ${CMAKE_SOURCE_DIR}/include/config/ConfigInfo.h
+    ${CMAKE_SOURCE_DIR}/include/config/AppInfo.h.in
+    ${CMAKE_SOURCE_DIR}/include/config/AppInfo.h
     @ONLY
 )
 
@@ -31,7 +31,7 @@ endif()
 
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(SDL3 CONFIG REQUIRED)
-find_package(SDL3_image REQUIRED CONFIG)
+find_package(SDL3_image CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
 # Sources and headers
