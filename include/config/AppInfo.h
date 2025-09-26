@@ -1,14 +1,11 @@
 #pragma once
+#define PROJECT_NAME "My_Test_App"
+#define PROJECT_VERSION_MAJOR "1"
+#define PROJECT_VERSION_MINOR "0"
+#define PROJECT_VERSION_PATCH "0"
 
-#define PROJECT_NAME "@PROJECT_NAME@"
-#define PROJECT_VERSION_MAJOR "@PROJECT_VERSION_MAJOR@"
-#define PROJECT_VERSION_MINOR "@PROJECT_VERSION_MINOR@"
-#define PROJECT_VERSION_PATCH "@PROJECT_VERSION_PATCH@"
-
-
-
-#pragma once
 #include <filesystem>
+#include <string>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -16,22 +13,31 @@
 #include <unistd.h>
 #endif
 
-
+// Pfade
 inline std::filesystem::path exeDir;
 
-inline void initExeDir() {
+// Initialisierung
+inline void init()
+{
 #ifdef _WIN32
     char path[MAX_PATH];
     GetModuleFileNameA(nullptr, path, MAX_PATH);
     exeDir = std::filesystem::path(path).parent_path();
+
+    screenWidth = GetSystemMetrics(SM_CXSCREEN);
+    screenHeight = GetSystemMetrics(SM_CYSCREEN);
 #else
     char buf[4096];
     ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
-    if (len != -1) {
+    if (len != -1)
+    {
         buf[len] = '\0';
         exeDir = std::filesystem::path(buf).parent_path();
-    } else {
+    }
+    else
+    {
         exeDir = std::filesystem::current_path();
     }
+
 #endif
 }
