@@ -26,7 +26,7 @@ Program Loop                    ██████░░░░ 60%  🟡
 Texture Manager                 █████████░ 90%  🟢
 PythonBundleAssetsMaker         ██████████ 100% 🟢
 BuildAssetsHandler              ████████░░ 80%  🟢
-Lazy Loader                     ████████░░ 80%  🟢
+Lazy Loader                     ██████████ 100% 🟢
 Config Loader                   ███████░░░ 70%  🟡
 Instance Manager                ███░░░░░░░ 30%  🔴
 Instance                        ░░░░░░░░░░ 0%   🔴
@@ -108,6 +108,51 @@ bin/<Build-tool>/sprites/mid/hero.pak
 * **Path** – Path of the file inside the `.pak` file
 
 This recursive structure allows the program to load each `.pak` file independently, ensuring that subfolders create separate `.pak` files and no files are included from other folders.
+
+---
+
+## Lazy Loader
+
+The **Lazy Loader** is a system for **automatic texture management** in this project. It ensures that textures are **loaded only when needed**, reduces **memory usage**, and replaces missing textures with **placeholder textures** so the program can **continue running smoothly**.
+
+### How It Works
+
+* Each texture is identified by a unique **ID**.
+* When a texture is requested with a given ID:
+
+  * **If it is already loaded**, it is returned immediately.
+  * **If it is not loaded yet** and paths are provided, the ID and its associated file paths are automatically **added to the lazy-loading queue**. This tells the loader to load the texture **in the background during the next loading cycle**.
+  * Until the texture is available, a **placeholder texture** is returned so the program keeps running without interruption.
+
+### Methods
+
+1. **`GetTexture(id, paths...)`**
+
+   * Retrieves a texture by its ID.
+   * If the texture does not exist yet and paths are provided, it is **added to the lazy-loading queue** for background loading.
+   * While the texture is not yet available, a **placeholder** is returned.
+
+2. **`AddTexture(id, paths...)`**
+
+   * Adds a texture to the lazy-loading queue **in advance**, without loading it immediately.
+   * Useful when you want to **prepare certain textures** but defer their loading until they are actually needed.
+   * This function is optional because `GetTexture` uses the same mechanism automatically if the texture is missing.
+
+3. **`AddTextureInstantly(renderer, id, paths...)`**
+
+   * Loads a texture **immediately** and adds it to the `TextureManager`.
+   * Useful if a texture must be available **right from the start** or at a specific point in time.
+
+### Quality Levels & Fallback System
+
+When adding a texture, you can provide multiple **file paths for different quality levels**, starting from the **lowest quality on the left** to the **highest quality on the right**.
+The target quality level is defined in the **`WindowConfig`**.
+
+* The loader first tries to load the texture in the **selected quality level**.
+* **If that level is not available**, it automatically **falls back step by step to lower quality levels**, trying each until one can be loaded. This process continues **recursively** until a valid texture is found.
+* If **none of the paths** can be loaded, the loader will automatically generate and use a **placeholder texture**, ensuring the program continues running smoothly.
+
+This fallback system allows you to easily control how detailed your graphics should be while ensuring that your program remains stable even if certain assets are missing or corrupted.
 
 ---
 
