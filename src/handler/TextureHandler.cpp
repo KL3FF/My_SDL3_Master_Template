@@ -99,7 +99,6 @@ SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vect
     auto itQueue = queueSet.find(id);
     if (itQueue == queueSet.end())
     {
-        std::cout << id << " " << paths[0] << "\n";
         textureLoadingQueue.push({id, paths});
         queueSet.insert(id);
     }
@@ -114,6 +113,25 @@ SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vect
 
     return nullptr;
 }
+
+// Add a texture lazy to the manager if it doesn't exist yet
+void TextureManager::AddLazyTextureInternal(const std::string &id, std::vector<std::string> &paths)
+{
+    auto it = textures.find(id);
+    if (it != textures.end())
+    {
+        return;
+    }
+
+    // Queue texture for lazy loading if not already queued
+    auto itQueue = queueSet.find(id);
+    if (itQueue == queueSet.end())
+    {
+        textureLoadingQueue.push({id, paths});
+        queueSet.insert(id);
+    }
+}
+
 
 // Return texture size (width, height)
 std::pair<int, int> TextureManager::GetSize(std::string &id)

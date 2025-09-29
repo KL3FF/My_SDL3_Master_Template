@@ -33,21 +33,46 @@ struct Texture
 class TextureManager
 {
 public:
-
     // Get a texture by ID, add paths for lazy loading if not loaded yet
     template <typename... stringVT>
     static SDL_Texture *GetTexture(const std::string &id, stringVT... paths)
     {
         std::vector<std::string> vecPaths = {paths...};
+        if (vecPaths.empty())
+        {
+            // Return placeholder
+            auto placeholder = textures.find("__placeholder__");
+            if (placeholder != textures.end())
+            {
+                return placeholder->second->tex;
+            }
+            return nullptr;
+        }
         return GetTextureInternal(id, vecPaths);
+    }
+    // Add a texture lazy if it doesn't exist
+    template <typename... stringVT>
+    static void AddTexture(const std::string &id, stringVT... paths)
+    {
+        std::vector<std::string> vecPaths = {paths...};
+        if (vecPaths.empty())
+        {
+            return;
+        }
+        AddLazyTextureInternal(id, vecPaths);
     }
 
     // Add a texture immediately if it doesn't exist
     template <typename... stringVT>
-    static void AddTexture(SDL_Renderer &renderer, std::string &id, stringVT... paths)
+    static void AddTextureInstantly(SDL_Renderer &renderer, std::string &id, stringVT... paths)
     {
         std::vector<std::string> vecPaths = {paths...};
-        TextureManager::AddTextureInternal(renderer, id, vecPaths);
+        if (vecPaths.empty())
+        {
+            return;
+        }
+
+        AddTextureInternal(renderer, id, vecPaths);
     }
 
     // Load the next texture in the lazy loading queue
@@ -66,6 +91,8 @@ private:
 
     // Internal function to add a texture
     static void AddTextureInternal(SDL_Renderer &renderer, std::string &id, std::vector<std::string> &paths);
+
+    static void AddLazyTextureInternal(const std::string &id, std::vector<std::string> &paths);
 
     // Internal function to get a texture by ID
     static SDL_Texture *GetTextureInternal(const std::string &id, std::vector<std::string> &paths);
