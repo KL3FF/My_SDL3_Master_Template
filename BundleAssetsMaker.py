@@ -30,7 +30,7 @@ def write_pak(folder_path, pak_path, base_assets_dir):
             offset = pak.tell()
             ext = os.path.splitext(full_path)[1].lower()
             
-            # convert picture like png in for the .pak
+            # convert picture like png in bmp for the .pak
             if ext in [".png", ".jpg", ".jpeg", ".webp"]:
                 with Image.open(full_path) as img:
                     with io.BytesIO() as output:

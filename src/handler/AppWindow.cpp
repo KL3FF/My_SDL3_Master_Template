@@ -9,7 +9,7 @@
 AppWindow::AppWindow()
 {
 
-    WindowConfig::OpenConfig();
+    WindowConfig::LoadConfig();
 
     SDL_Init(SDL_INIT_VIDEO);
     
