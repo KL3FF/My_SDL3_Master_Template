@@ -18,6 +18,8 @@ struct Texture
 
     Texture(SDL_Texture *t, int w, int h);
     ~Texture();
+    float GetTTL();
+    void SetTTL(float _ttl);
 };
 
 class TextureManager
@@ -32,12 +34,11 @@ public:
     }
 
     template <typename... stringVT>
-    static void *AddTexture(SDL_Renderer &renderer, std::string &id, stringVT... paths)
+    static void AddTexture(SDL_Renderer &renderer, std::string &id, stringVT... paths)
     {
         std::vector<std::string> vecPaths = {paths...};
         TextureManager::AddTextureInternal(renderer, id, vecPaths);
     }
-
 
     // Load Textures
     static void TextureLazyLoad(SDL_Renderer &renderer);
@@ -47,13 +48,14 @@ public:
 
     // Initialize a minimal placeholder texture
     static void InitPlaceholder(SDL_Renderer &renderer);
-      // Clear all textures
+    // Clear all textures
     static void ClearAll();
+
 private:
     // AddTextureInternal a texture
-    static void AddTextureInternal(SDL_Renderer &renderer,  std::string &id, std::vector<std::string> &paths);
+    static void AddTextureInternal(SDL_Renderer &renderer, std::string &id, std::vector<std::string> &paths);
 
-    static SDL_Texture *GetTextureInternal(const std::string &id,  std::vector<std::string> &paths);
+    static SDL_Texture *GetTextureInternal(const std::string &id, std::vector<std::string> &paths);
 
     // GetTextureInternal the size of a texture
     static std::pair<int, int> GetSize(std::string &id);
@@ -61,10 +63,13 @@ private:
     // DeleteTexture a texture
     static void DeleteTexture(std::string &id);
 
-    static SDL_Texture* EmptyTexture(SDL_Renderer &renderer);
-   
+    static SDL_Texture *EmptyTexture(SDL_Renderer &renderer);
 
+    // Textures
     static std::unordered_map<std::string, Texture *> textures;
+    // Iterator from textures
+    static std::unordered_map<std::string, Texture *>::iterator currentIt;
+
     static std::queue<std::pair<std::string, std::vector<std::string>>> textureLoadingQueue;
     static std::unordered_set<std::string> queueSet;
 };

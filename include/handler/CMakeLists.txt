@@ -1,7 +1,7 @@
 target_include_directories(BundleAssetsHandler PUBLIC "./")
 
-target_include_directories(JsonConfigHandler PUBLIC "./")
-target_link_libraries(JsonConfigHandler PRIVATE nlohmann_json::nlohmann_json)
+target_include_directories(ConfigHandler PUBLIC "./")
+target_link_libraries(ConfigHandler PRIVATE nlohmann_json::nlohmann_json)
 
 target_include_directories(InstanceHandler PUBLIC "./")
 target_link_libraries(InstanceHandler PRIVATE BaseObject)

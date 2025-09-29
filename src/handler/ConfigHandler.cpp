@@ -1,12 +1,12 @@
 #include <fstream>
 #include <iostream>
-#include "JsonConfigHandler.h"
+#include "ConfigHandler.h"
 #include "AppInfo.h"
 
-nlohmann::json JsonConfigHandler::j;
-std::filesystem::path JsonConfigHandler::path;
+nlohmann::json ConfigHandler::j;
+std::filesystem::path ConfigHandler::path;
 
-void JsonConfigHandler::LoadJson() {
+void ConfigHandler::OpenConfig() {
     path = GetConfigPath();
 
     std::filesystem::create_directories(path.parent_path());
@@ -17,11 +17,11 @@ void JsonConfigHandler::LoadJson() {
     }
 }
 
-void JsonConfigHandler::SaveJson() {
+void ConfigHandler::SaveConfig() {
     std::ofstream(path) << j.dump(4); 
 }
 
-std::filesystem::path JsonConfigHandler::GetConfigPath() {
+std::filesystem::path ConfigHandler::GetConfigPath() {
 #ifdef _WIN32
     const char* appdata = std::getenv("APPDATA");
     std::filesystem::path base = appdata ? std::filesystem::path(appdata) / PROJECT_NAME

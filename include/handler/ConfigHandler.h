@@ -3,18 +3,18 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-class JsonConfigHandler {
+class ConfigHandler {
 public:
 
-    static void LoadJson();
+    static void OpenConfig();
  
-    static void SaveJson();
+    static void SaveConfig();
 
     template<typename T>
-    static T GetJsonValue(const std::string& key, const T& defaultValue);
+    static T GetConfigValue(const std::string& key, const T& defaultValue);
 
     template<typename T>
-    static void SetJsonValue(const std::string& key, const T& value);
+    static void SetConfigValue(const std::string& key, const T& value);
 
 private:
     static nlohmann::json j;
@@ -25,7 +25,7 @@ private:
 };
 
 template<typename T>
-T JsonConfigHandler::GetJsonValue(const std::string& key, const T& defaultValue) {
+T ConfigHandler::GetConfigValue(const std::string& key, const T& defaultValue) {
     if (!j.contains(key)) {
         j[key] = defaultValue;
     }
@@ -33,6 +33,6 @@ T JsonConfigHandler::GetJsonValue(const std::string& key, const T& defaultValue)
 }
 
 template<typename T>
-void JsonConfigHandler::SetJsonValue(const std::string& key, const T& value) {
+void ConfigHandler::SetConfigValue(const std::string& key, const T& value) {
     j[key] = value;
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "JsonConfigHandler.h"
+#include "ConfigHandler.h"
 
 namespace WindowConfig
 {
@@ -54,26 +54,26 @@ namespace WindowConfig
 
     inline int getTargetFps() { return fpsOptions[fpsIndex]; }
 
-    inline void LoadConfig()
+    inline void OpenConfig()
     {
-        JsonConfigHandler::LoadJson();
-        fullscreenEnabled = JsonConfigHandler::GetJsonValue("fullscreen", false);
-        vsyncEnabled = JsonConfigHandler::GetJsonValue("vsync", false);
-        screenWidth = JsonConfigHandler::GetJsonValue("width", 1280);
-        screenHeight = JsonConfigHandler::GetJsonValue("height", 720);
-        textureQuality = JsonConfigHandler::GetJsonValue("textureQuality", 0);
-        JsonConfigHandler::SaveJson();
+        ConfigHandler::OpenConfig();
+        fullscreenEnabled = ConfigHandler::GetConfigValue("fullscreen", false);
+        vsyncEnabled = ConfigHandler::GetConfigValue("vsync", false);
+        screenWidth = ConfigHandler::GetConfigValue("width", 1280);
+        screenHeight = ConfigHandler::GetConfigValue("height", 720);
+        textureQuality = ConfigHandler::GetConfigValue("textureQuality", 0);
+        ConfigHandler::SaveConfig();
     }
 
     inline void SaveConfig()
     {
-        JsonConfigHandler::LoadJson();
-        JsonConfigHandler::SetJsonValue("fullscreen", fullscreenEnabled);
-        JsonConfigHandler::SetJsonValue("vsync", vsyncEnabled);
-        JsonConfigHandler::SetJsonValue("width", screenWidth);
-        JsonConfigHandler::SetJsonValue("height", screenHeight);
-        JsonConfigHandler::SetJsonValue("textureQuality", textureQuality);
-        JsonConfigHandler::SaveJson();
+        ConfigHandler::OpenConfig();
+        ConfigHandler::SetConfigValue("fullscreen", fullscreenEnabled);
+        ConfigHandler::SetConfigValue("vsync", vsyncEnabled);
+        ConfigHandler::SetConfigValue("width", screenWidth);
+        ConfigHandler::SetConfigValue("height", screenHeight);
+        ConfigHandler::SetConfigValue("textureQuality", textureQuality);
+        ConfigHandler::SaveConfig();
     }
 
 }

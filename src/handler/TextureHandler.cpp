@@ -6,9 +6,10 @@
 #include <vector>
 #include <unordered_set>
 
-
 // All loaded textures
 std::unordered_map<std::string, Texture *> TextureManager::textures;
+// Iterator for traversing textures
+std::unordered_map<std::string, Texture *>::iterator TextureManager::currentIt = TextureManager::textures.end();
 
 // Queue for textures that should be loaded
 std::queue<std::pair<std::string, std::vector<std::string>>> TextureManager::textureLoadingQueue;
@@ -29,8 +30,17 @@ Texture::~Texture()
     }
 }
 
+float Texture::GetTTL()
+{
+    return ttl;
+}
+void Texture::SetTTL(float _ttl)
+{
+    ttl = _ttl;
+}
+
 // Adds a texture to the manager if it doesn't already exist
-void TextureManager::AddTextureInternal(SDL_Renderer &renderer,  std::string &id, std::vector<std::string> &paths)
+void TextureManager::AddTextureInternal(SDL_Renderer &renderer, std::string &id, std::vector<std::string> &paths)
 {
     // Check if texture already exists
     auto it = textures.find(id);
@@ -39,13 +49,13 @@ void TextureManager::AddTextureInternal(SDL_Renderer &renderer,  std::string &id
         return;
     }
 
-
     size_t index = static_cast<size_t>(WindowConfig::getTextureQuality());
     if (index >= paths.size())
     {
         index = paths.size() - 1;
     }
 
+    // Try loading textures from highest to lowest quality
     for (int i = static_cast<int>(index); i >= 0; --i)
     {
         // Load texture data from bundle
@@ -54,28 +64,27 @@ void TextureManager::AddTextureInternal(SDL_Renderer &renderer,  std::string &id
         {
             continue;
         }
-      
+
         // Create SDL IO stream from memory
         SDL_IOStream *io = SDL_IOFromConstMem(data.data(), static_cast<int>(data.size()));
         if (!io)
         {
             continue;
         }
-      
-        // SDL functions expect a pointer, so use &renderer
+
+        // Load texture from IO stream
         SDL_Texture *texture = IMG_LoadTexture_IO(&renderer, io, true);
         if (!texture)
         {
             std::cerr << "SDL_CreateTextureFromSurface failed: " << SDL_GetError() << "\n";
             continue;
         }
-        // Store the texture in the manager
+        // Store the loaded texture in the manager
         textures[id] = new Texture(texture, texture->w, texture->h);
         return;
     }
 
-
-    // No Tex found => backup emptyTexture
+    // If no texture was found, use a backup empty texture
     SDL_Texture *tex = EmptyTexture(renderer);
     if (!tex)
     {
@@ -87,12 +96,10 @@ void TextureManager::AddTextureInternal(SDL_Renderer &renderer,  std::string &id
 // Returns the SDL_Texture pointer for a given id, or a placeholder if not loaded yet
 SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vector<std::string> &paths)
 {
-
     // Search for texture and return it if found
     auto it = textures.find(id);
     if (it != textures.end())
     {
-     
         return it->second->tex;
     }
     else
@@ -110,7 +117,7 @@ SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vect
         auto placeholder = textures.find("__placeholder__");
         if (placeholder != textures.end())
         {
-            std::cout<< "Placeholder" << "\n";
+            std::cout << "Placeholder" << "\n";
             return placeholder->second->tex;
         }
 
@@ -138,8 +145,28 @@ void TextureManager::DeleteTexture(std::string &id)
     auto it = textures.find(id);
     if (it != textures.end())
     {
-        delete it->second;
-        textures.erase(it);
+        // If currentIt points to the element to be deleted, update it to remain valid after erase
+        if (currentIt == it)
+        {
+            // Erase and get the next valid iterator
+            currentIt = textures.erase(it);
+        }
+        else
+        {
+            delete it->second;
+            textures.erase(it);
+        }
+
+        // If the map is now empty, set iterator to end()
+        if (textures.empty())
+        {
+            currentIt = textures.end();
+        }
+        // If we are at the end after erase but still have elements, start from the beginning
+        else if (currentIt == textures.end())
+        {
+            currentIt = textures.begin();
+        }
     }
 }
 
@@ -150,7 +177,7 @@ void TextureManager::ClearAll()
     {
         delete pair.second;
     }
-
+    currentIt = textures.end();
     textures.clear();
 }
 
@@ -165,10 +192,11 @@ void TextureManager::InitPlaceholder(SDL_Renderer &renderer)
     textures["__placeholder__"] = new Texture(tex, 2, 2);
 }
 
+// Creates a minimal empty texture (used as a fallback)
 SDL_Texture *TextureManager::EmptyTexture(SDL_Renderer &renderer)
 {
 
-    constexpr int  w = 2; 
+    constexpr int w = 2;
     constexpr int h = 2;
     Uint32 pixels[4] = {0x00000000, 0x00000000, 0x00000000, 0x00000000};
 
@@ -205,9 +233,45 @@ void TextureManager::TextureLazyLoad(SDL_Renderer &renderer)
     }
 }
 
-// Unloads textures that are no longer needed (not implemented yet)
+// Unloads textures that are no longer needed (checks TTL and removes expired textures)
 void TextureManager::TextureProcessUnload()
 {
+    // Check if the map is empty; if so, set iterator to end and return
+    if (textures.empty())
+    {
+        currentIt = textures.end();
+        return;
+    }
 
-    // Not implemented yet
+    // If iterator is at the end, start from the beginning
+    if (currentIt == textures.end())
+    {
+        currentIt = textures.begin();
+    }
+    currentIt->second->SetTTL(currentIt->second->GetTTL()-1);
+    //  std::cout << currentIt->second->GetTTL() << " " <<  currentIt->first  << std::endl;
+    // Check TTL (time to live) of the current texture
+    if (currentIt->second->GetTTL() <= 0)
+    {
+          
+        // Delete texture from heap
+        delete currentIt->second;
+
+        // Remove texture from map and move iterator to next element
+        currentIt = textures.erase(currentIt);
+        if (textures.empty())
+        {
+            currentIt = textures.end();
+        }
+    }
+    else
+    {
+        ++currentIt;
+    }
+
+    // If iterator is at the end after increment, start from the beginning
+    if (currentIt == textures.end())
+    {
+        currentIt = textures.begin();
+    }
 }

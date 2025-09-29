@@ -24,9 +24,6 @@ int main(int argc, char *argv[])
     BundleAssetsHandler::PrintAllEntries();
 
 
-
-
-
     AppWindow window;
     SDL_Event event;
     TextureManager::InitPlaceholder(window.GetRenderer());
@@ -41,11 +38,8 @@ int main(int argc, char *argv[])
     float rectY = 200.0f;
     float rectX2 = 0.0f;
     float rectY2 = 300.0f;
-
     float speed = 200.0f;
 
-    int rectW = 100;
-    int rectH = 100;
 
     while (window.IsRunning())
     {
@@ -70,7 +64,7 @@ int main(int argc, char *argv[])
         rectX2 += speed * 1.1 * dt;
         if (rectX2 > 1640)
         {
-            rectX2 = -rectW;
+            rectX2 = -100;
         }
         SDL_FRect src2 = { 0, 0, 128, 128 };
         SDL_FRect dst2 = { rectX2, rectY2, 128, 128 };
@@ -80,7 +74,7 @@ int main(int argc, char *argv[])
         rectX += speed * dt;
         if (rectX > 1640)
         {
-            rectX = -rectW;
+            rectX = -100;
         }
         SDL_FRect src = { 0, 0, 128, 128 };
         SDL_FRect dst = { rectX, rectY, 128, 128 };
@@ -95,12 +89,16 @@ int main(int argc, char *argv[])
         window.LimitFPS();
 
         // --- DeltaTime & FPS Anzeige ---
-        window.ShowDeltaTime();
-
-        TextureManager::TextureLazyLoad(window.GetRenderer());
+        //window.ShowDeltaTime();
+    TextureManager::TextureProcessUnload();
+       TextureManager::TextureLazyLoad(window.GetRenderer());
+   
+  
     }
 
     TextureManager::ClearAll();
     BundleAssetsHandler::ClearAllFiles();
     return 0;
 }
+
+

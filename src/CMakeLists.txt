@@ -16,5 +16,5 @@ target_link_libraries(MAIN PRIVATE SDL3_image::SDL3_image)
 
 # target_link_libraries(MAIN PRIVATE nlohmann_json::nlohmann_json)
 # target_link_libraries(MAIN PRIVATE BaseObject)
-# target_link_libraries(MAIN PRIVATE JsonConfigHandler)
+# target_link_libraries(MAIN PRIVATE ConfigHandler)
 # target_link_libraries(MAIN PRIVATE InstanceHandler)
