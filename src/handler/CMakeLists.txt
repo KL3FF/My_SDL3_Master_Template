@@ -11,22 +11,27 @@ target_link_libraries(ConfigHandler PRIVATE AppInfo)
 
 # -------------- InstanceHandler -------------- 
 add_library(InstanceHandler STATIC "InstanceHandler.cpp")
+target_link_libraries(InstanceHandler PRIVATE SDL3_image::SDL3_image)
 
 
 
+# -------------- GuiHandler -------------- 
+add_library(GuiHandler STATIC "InstanceHandler.cpp")
+target_link_libraries(GuiHandler PRIVATE SDL3_image::SDL3_image)
 
-# -------------- InstanceHandler -------------- 
+
+
+# -------------- TextureHandler -------------- 
 add_library(TextureHandler STATIC "TextureHandler.cpp")
 
 
 
 
-# -------------- InstanceHandler -------------- 
+# -------------- AppWindow -------------- 
 add_library(AppWindow STATIC "AppWindow.cpp")
 target_link_libraries(AppWindow PRIVATE ConfigHandler)
 target_link_libraries(AppWindow PRIVATE WindowConfig)
 
 
-# -------------- InstanceHandler -------------- 
+# -------------- DrawHandler -------------- 
 add_library(DrawHandler STATIC "DrawHandler.cpp")
-

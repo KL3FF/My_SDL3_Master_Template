@@ -18,13 +18,13 @@ BasicObject::~BasicObject()
 // Draw-Funktion
 void BasicObject::Draw()
 {
-    std::cout << "BasicObject Draw at (" << x << ", " << y << ")\n";
+    std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
 }
 
 // Update-Funktion
 void BasicObject::Update(double &ndt)
 {
-    // Default: tut nichts
+    std::cout << "BasicObject Update at (" << x << ", " << y << ", " << depth << ")\n";
 }
 
 // ===================== Player =====================

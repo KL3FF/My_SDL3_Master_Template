@@ -5,11 +5,11 @@
 #include "BasicObject.h"
 #include <SDL3_image/SDL_image.h>
 
-class InstanceHandler {
+class GuiHandler {
 public:
   
-    InstanceHandler() = delete;
-    ~InstanceHandler() = delete;
+    GuiHandler() = delete;
+    ~GuiHandler() = delete;
 
     static std::unordered_map<std::string, BasicObject*> gameInstances;
 

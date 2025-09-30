@@ -13,3 +13,7 @@ target_link_libraries(MAIN PRIVATE AppWindow)
 target_link_libraries(MAIN PRIVATE SDL3::SDL3)
 target_link_libraries(MAIN PRIVATE SDL3_image::SDL3_image)
 target_link_libraries(MAIN PRIVATE InstanceHandler)
+target_link_libraries(MAIN PRIVATE GuiHandler)
+
+
+

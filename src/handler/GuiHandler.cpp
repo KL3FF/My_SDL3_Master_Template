@@ -1,11 +1,11 @@
-#include "InstanceHandler.h"
+#include "GuiHandler.h"
 #include "BasicObject.h"
 #include <random>
 #include <SDL3_image/SDL_image.h>
 
-std::unordered_map<std::string, BasicObject*> InstanceHandler::gameInstances;
+std::unordered_map<std::string, BasicObject*> GuiHandler::gameInstances;
 
-void InstanceHandler::AllUpdate(double& ndt) 
+void GuiHandler::AllUpdate(double& ndt) 
 {
     // loop for all instance
     for (auto& [uuid, instance] : gameInstances) {
@@ -15,7 +15,7 @@ void InstanceHandler::AllUpdate(double& ndt)
     }
 }
 
-void InstanceHandler::AllDraw(SDL_Renderer &renderer) 
+void GuiHandler::AllDraw(SDL_Renderer &renderer) 
 {
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {
@@ -25,7 +25,7 @@ void InstanceHandler::AllDraw(SDL_Renderer &renderer)
 }
 
 
-void InstanceHandler::AddInstance(BasicObject* instance) 
+void GuiHandler::AddInstance(BasicObject* instance) 
 {
     std::string uuid = CreateUuid();
 
@@ -38,7 +38,7 @@ void InstanceHandler::AddInstance(BasicObject* instance)
     gameInstances[uuid] = instance;
 }
 
-void InstanceHandler::Remove(BasicObject* instance) 
+void GuiHandler::Remove(BasicObject* instance) 
 {
     auto it = gameInstances.find(instance->uuid);
     if (it != gameInstances.end()) {
@@ -48,7 +48,7 @@ void InstanceHandler::Remove(BasicObject* instance)
     
 }
 
-void InstanceHandler::RemoveAll() 
+void GuiHandler::RemoveAll() 
 {
     for (auto& pair : gameInstances) {
         delete pair.second;
@@ -57,7 +57,7 @@ void InstanceHandler::RemoveAll()
 }
 
 
-std::string InstanceHandler::CreateUuid() {
+std::string GuiHandler::CreateUuid() {
     static std::mt19937 gen{ std::random_device{}() };
     static std::uniform_int_distribution<> dis(0, 15);
     std::string uuid;

@@ -8,6 +8,7 @@
 #include "AppInfo.h"
 #include "TextureHandler.h"
 #include "InstanceHandler.h"
+#include "GuiHandler.h"
 
 //int argc, char *argv[]
 int main()
@@ -58,9 +59,9 @@ int main()
 
 
         // --- Render ---
-         SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
+        SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
         SDL_RenderClear(&window.GetRenderer());
-        InstanceHandler::AllDraw();
+        InstanceHandler::AllDraw(window.GetRenderer());
 
         // ! BOX TEST
         rectX2 += speed * 1.5 * dt;
