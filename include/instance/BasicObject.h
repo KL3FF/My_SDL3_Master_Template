@@ -13,19 +13,20 @@ public:
     float depth = 0.0f;
     float angle = 0.0f;
 
-    BasicObject(float _x, float _y, float _depth);
+    BasicObject(SDL_Renderer &renderer, float _x, float _y, float _depth);
     virtual ~BasicObject();
+    virtual void Update(SDL_Renderer &renderer, double &ndt);
     virtual void Draw(SDL_Renderer &renderer);
-    virtual void Update(double &ndt);
+
 };
 
 // ===================== Player =====================
 class Player : public BasicObject
 {
 public:
-    Player(float _x, float _y, float _depth);
+    Player(SDL_Renderer &renderer, float _x, float _y, float _depth);
     ~Player();
-    void Update(double &ndt);
+    void Update(SDL_Renderer &renderer, double &ndt);
 
     void Draw(SDL_Renderer &renderer);
 };

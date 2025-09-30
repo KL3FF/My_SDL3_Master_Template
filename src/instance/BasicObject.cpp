@@ -2,11 +2,11 @@
 #include "BasicObject.h"
 #include "TextureHandler.h"
 #include <SDL3_image/SDL_image.h>
-#include "TextureHandler.h"
+#include "DrawHandler.h"
 // ===================== BasicObject =====================
 
 // Konstruktor
-BasicObject::BasicObject(float _x, float _y, float _depth) : x(_x), y(_y), depth(_depth)
+BasicObject::BasicObject(SDL_Renderer &renderer, float _x, float _y, float _depth) : x(_x), y(_y), depth(_depth)
 {
      std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
     // optional: Initialisierung
@@ -15,26 +15,28 @@ BasicObject::BasicObject(float _x, float _y, float _depth) : x(_x), y(_y), depth
 // Destruktor
 BasicObject::~BasicObject()
 {
-    std::cout << "BasicObject destroyed: " << uuid << "\n";
+
+}
+// Update-Funktion
+void BasicObject::Update(SDL_Renderer &renderer, double &ndt)
+{
+   
 }
 
 // Draw-Funktion
 void BasicObject::Draw(SDL_Renderer &renderer)
 {
-    std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
+
 }
 
-// Update-Funktion
-void BasicObject::Update(double &ndt)
-{
-    std::cout << "BasicObject Update at (" << x << ", " << y << ", " << depth << ")\n";
-}
 
 // ===================== Player =====================
 
 // Konstruktor
-Player::Player(float _x, float _y, float _depth) : BasicObject(_x, _y, _depth)
+Player::Player(SDL_Renderer &renderer, float _x, float _y, float _depth) : BasicObject(renderer,_x, _y, _depth)
 {
+    std::cout << "Player Draw at (" << x << ", " << y << ", " << depth << ")\n";
+    TextureManager::AddTextureLazy("test2", "assets/sprites/high/hero/test2.png");
 }
 Player::~Player()
 {
@@ -42,25 +44,23 @@ Player::~Player()
 }
 
 // Update-Funktion
-void Player::Update(double &ndt)
+void Player::Update(SDL_Renderer &renderer, double &ndt)
 {
     x +=  1.5 * ndt;
-    std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
     if (x > 1640)
     {
         x = -100;
     }
-   std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
+
 }
 
 // Draw-Funktion
 void Player::Draw(SDL_Renderer &renderer)
 {
 
-        SDL_FRect src2 = {0, 0, 128, 128};
-        SDL_FRect dst2 = {x, y, 128, 128};
-        SDL_RenderTexture(&renderer, TextureManager::GetTexture("test2", "assets/sprites/high/hero/test2.png"), &src2, &dst2);
 
+        DrawHandler::DrawSprite(renderer,"test2",x,y);
+     
     // std::cout << "Drawing Player at (" << x << ", " << y << ")\n";
 }
 

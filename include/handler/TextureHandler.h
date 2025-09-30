@@ -42,21 +42,11 @@ public:
     static SDL_Texture *GetTexture(const std::string &id, stringVT... paths)
     {
         std::vector<std::string> vecPaths = {paths...};
-        if (vecPaths.empty())
-        {
-            // Return placeholder
-            auto placeholder = textures.find("__placeholder__");
-            if (placeholder != textures.end())
-            {
-                return placeholder->second->tex;
-            }
-            return nullptr;
-        }
         return GetTextureInternal(id, vecPaths);
     }
     // Add a texture lazy if it doesn't exist
     template <typename... stringVT>
-    static void AddTexture(const std::string &id, stringVT... paths)
+    static void AddTextureLazy(const std::string &id, stringVT... paths)
     {
         std::vector<std::string> vecPaths = {paths...};
         if (vecPaths.empty())
@@ -80,10 +70,10 @@ public:
     }
 
     // Load the next texture in the lazy loading queue
-    static void TextureLazyLoad(SDL_Renderer &renderer);
+    static void TextureLazyLoader(SDL_Renderer &renderer);
 
     // Process unloading of textures whose TTL has expired
-    static void TextureProcessUnload();
+    static void TextureLazyUnloader();
 
     // Initialize a minimal placeholder texture
     static void InitPlaceholder(SDL_Renderer &renderer);

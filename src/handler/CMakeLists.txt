@@ -35,3 +35,5 @@ target_link_libraries(AppWindow PRIVATE WindowConfig)
 
 # -------------- DrawHandler -------------- 
 add_library(DrawHandler STATIC "DrawHandler.cpp")
+target_link_libraries(DrawHandler PRIVATE SDL3_image::SDL3_image)
+target_link_libraries(DrawHandler PRIVATE TextureHandler)

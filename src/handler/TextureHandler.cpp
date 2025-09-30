@@ -96,19 +96,21 @@ SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vect
         return it->second->tex;
     }
 
-    // Queue texture for lazy loading if not already queued
-    auto itQueue = queueSet.find(id);
-    if (itQueue == queueSet.end())
+    if (!paths.empty())
     {
-        textureLoadingQueue.push({id, paths});
-        queueSet.insert(id);
+        // Queue texture for lazy loading if not already queued
+        auto itQueue = queueSet.find(id);
+        if (itQueue == queueSet.end())
+        {
+            textureLoadingQueue.push({id, paths});
+            queueSet.insert(id);
+        }
     }
-
     // Return placeholder if available
     auto placeholder = textures.find("__placeholder__");
     if (placeholder != textures.end())
     {
-        std::cout << "Placeholder" << "\n";
+        // std::cout << "Placeholder" << "\n";
         return placeholder->second->tex;
     }
 
@@ -132,7 +134,6 @@ void TextureManager::AddLazyTextureInternal(const std::string &id, std::vector<s
         queueSet.insert(id);
     }
 }
-
 
 // Return texture size (width, height)
 std::pair<int, int> TextureManager::GetSize(std::string &id)
@@ -219,7 +220,7 @@ SDL_Texture *TextureManager::EmptyTexture(SDL_Renderer &renderer)
 }
 
 // Lazy load the next texture in queue
-void TextureManager::TextureLazyLoad(SDL_Renderer &renderer)
+void TextureManager::TextureLazyLoader(SDL_Renderer &renderer)
 {
     if (!textureLoadingQueue.empty())
     {
@@ -233,7 +234,7 @@ void TextureManager::TextureLazyLoad(SDL_Renderer &renderer)
 }
 
 // Process unloading textures with expired TTL
-void TextureManager::TextureProcessUnload()
+void TextureManager::TextureLazyUnloader()
 {
     if (textures.empty())
     {

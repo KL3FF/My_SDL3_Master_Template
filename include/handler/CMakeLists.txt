@@ -35,3 +35,4 @@ target_link_libraries(AppWindow PRIVATE SDL3::SDL3)
 
 # -------------- DrawHandler -------------- 
 target_include_directories(DrawHandler PUBLIC "./")
+target_link_libraries(DrawHandler PRIVATE SDL3_image::SDL3_image)

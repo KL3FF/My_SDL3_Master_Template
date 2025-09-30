@@ -132,7 +132,7 @@ The **Lazy Loader** is a system for **automatic texture management** in this pro
    * If the texture does not exist yet and paths are provided, it is **added to the lazy-loading queue** for background loading.
    * While the texture is not yet available, a **placeholder** is returned.
 
-2. **`AddTexture(id, paths...)`**
+2. **`AddTextureLazy(id, paths...)`**
 
    * Adds a texture to the lazy-loading queue **in advance**, without loading it immediately.
    * Useful when you want to **prepare certain textures** but defer their loading until they are actually needed.

@@ -5,12 +5,12 @@
 
 std::unordered_map<std::string, BasicObject*> InstanceHandler::gameInstances;
 
-void InstanceHandler::AllUpdate(double& ndt) 
+void InstanceHandler::AllUpdate(SDL_Renderer &renderer,double& ndt) 
 {
     // loop for all instance
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {
-            instance->Update(ndt);
+            instance->Update(renderer,ndt);
         }
     }
 }
