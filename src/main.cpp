@@ -2,14 +2,12 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include <SDL3_image/SDL_image.h>
-
 #include <iostream>
 #include "BundleAssetsHandler.h"
 #include "AppWindow.h"
-#include "WindowConfig.h"
 #include "AppInfo.h"
 #include "TextureHandler.h"
-#include "WindowConfig.h"
+#include "InstanceHandler.h"
 
 int main(int argc, char *argv[])
 {

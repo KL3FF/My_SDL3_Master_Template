@@ -1,20 +1,30 @@
 #include "InstanceHandler.h"
+#include "BasicObject.h"
 
 
-std::unordered_map<std::string, BaseObject*> InstanceHandler::gameInstances;
+std::unordered_map<std::string, BasicObject*> InstanceHandler::gameInstances;
 
 void InstanceHandler::AllUpdate(double& ndt) 
 {
-   
+    // Schleife über alle gespeicherten Instanzen
+    for (auto& [uuid, instance] : gameInstances) {
+        if (instance) {
+            instance->Update(ndt);
+        }
+    }
 }
 
 void InstanceHandler::AllDraw() 
 {
-   
+    for (auto& [uuid, instance] : gameInstances) {
+        if (instance) {
+            instance->Draw();
+        }
+    }
 }
 
 // InstanceHandler::AddInstance(new Player());
-void InstanceHandler::AddInstance(BaseObject* instance) 
+void InstanceHandler::AddInstance(BasicObject* instance) 
 {
     std::string uuid = CreateUuid();
 
@@ -27,7 +37,7 @@ void InstanceHandler::AddInstance(BaseObject* instance)
     gameInstances[uuid] = instance;
 }
 
-void InstanceHandler::Remove(BaseObject* instance) 
+void InstanceHandler::Remove(BasicObject* instance) 
 {
     auto it = gameInstances.find(instance->uuid);
     if (it != gameInstances.end()) {
@@ -48,6 +58,5 @@ void InstanceHandler::RemoveAll()
 
 std::string InstanceHandler::CreateUuid() 
 {
-  
-    ///
+
 }

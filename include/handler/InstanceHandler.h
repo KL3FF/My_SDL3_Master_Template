@@ -2,22 +2,21 @@
 #include <unordered_map>
 #include <vector>
 #include <string>
-#include "BaseObject.h"
+#include "BasicObject.h"
 
 class InstanceHandler {
 public:
   
     InstanceHandler() = delete;
 
-    static std::unordered_map<std::string, BaseObject*> gameInstances;
+    static std::unordered_map<std::string, BasicObject*> gameInstances;
 
     static void AllUpdate(double& ndt);
     static void AllDraw();              
 
-    static void AddInstance(BaseObject* instance);
-    static void Remove(BaseObject* instance);
+    static void AddInstance(BasicObject* instance);
+    static void Remove(BasicObject* instance);
 
-    static void AddToRemoveList(BaseObject* instance);
     static void RemoveAll();
     
 
