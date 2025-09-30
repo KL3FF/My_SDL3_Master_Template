@@ -1,4 +1,4 @@
-# My\_SDL\_Master\_Template
+# My\_SDL\_Template
 
 **Description**
 
