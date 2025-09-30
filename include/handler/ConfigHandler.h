@@ -5,6 +5,8 @@
 
 class ConfigHandler {
 public:
+    ConfigHandler() = delete;
+    ~ConfigHandler() = delete;
     // data load
     static void OpenConfig();
 

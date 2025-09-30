@@ -33,6 +33,10 @@ struct Texture
 class TextureManager
 {
 public:
+
+    TextureManager() = delete;
+    ~TextureManager() = delete;
+
     // Get a texture by ID, add paths for lazy loading if not loaded yet
     template <typename... stringVT>
     static SDL_Texture *GetTexture(const std::string &id, stringVT... paths)

@@ -20,6 +20,10 @@ struct BundleEntry
 class BundleAssetsHandler
 {
 public:
+
+    BundleAssetsHandler() = delete;
+    ~BundleAssetsHandler() = delete;
+
     static bool LoadBundle();
     static bool RemoveFile(const std::string &path);
     static void ClearAllFiles();

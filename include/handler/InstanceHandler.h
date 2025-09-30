@@ -8,6 +8,7 @@ class InstanceHandler {
 public:
   
     InstanceHandler() = delete;
+    ~InstanceHandler() = delete;
 
     static std::unordered_map<std::string, BasicObject*> gameInstances;
 
