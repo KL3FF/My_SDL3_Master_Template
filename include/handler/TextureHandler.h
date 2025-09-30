@@ -7,7 +7,7 @@
 #include <queue>
 #include <unordered_set>
 #include "AppWindow.h"
-#include "WindowConfig.h"
+
 
 // Helper structure for textures
 struct Texture

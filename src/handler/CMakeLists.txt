@@ -16,7 +16,7 @@ target_link_libraries(InstanceHandler PRIVATE SDL3_image::SDL3_image)
 
 
 # -------------- GuiHandler -------------- 
-add_library(GuiHandler STATIC "InstanceHandler.cpp")
+add_library(GuiHandler STATIC "GuiHandler.cpp")
 target_link_libraries(GuiHandler PRIVATE SDL3_image::SDL3_image)
 
 

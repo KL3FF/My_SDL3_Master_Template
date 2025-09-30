@@ -1,9 +1,9 @@
 #include "GuiHandler.h"
-#include "BasicObject.h"
+#include "BasicGui.h"
 #include <random>
 #include <SDL3_image/SDL_image.h>
 
-std::unordered_map<std::string, BasicObject*> GuiHandler::gameInstances;
+std::unordered_map<std::string, BasicGui*> GuiHandler::gameInstances;
 
 void GuiHandler::AllUpdate(double& ndt) 
 {
@@ -25,7 +25,7 @@ void GuiHandler::AllDraw(SDL_Renderer &renderer)
 }
 
 
-void GuiHandler::AddInstance(BasicObject* instance) 
+void GuiHandler::AddInstance(BasicGui* instance) 
 {
     std::string uuid = CreateUuid();
 
@@ -38,7 +38,7 @@ void GuiHandler::AddInstance(BasicObject* instance)
     gameInstances[uuid] = instance;
 }
 
-void GuiHandler::Remove(BasicObject* instance) 
+void GuiHandler::Remove(BasicGui* instance) 
 {
     auto it = gameInstances.find(instance->uuid);
     if (it != gameInstances.end()) {

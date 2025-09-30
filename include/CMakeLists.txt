@@ -1,5 +1,6 @@
 add_subdirectory(config)
 add_subdirectory(core)
+add_subdirectory(gui)
 add_subdirectory(handler)
 add_subdirectory(instance)
 add_subdirectory(scenes)

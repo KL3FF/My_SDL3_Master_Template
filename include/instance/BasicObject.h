@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include <SDL3_image/SDL_image.h>
 
 // ===================== BasicObject =====================
 class BasicObject
@@ -14,7 +15,7 @@ public:
 
     BasicObject(float _x, float _y, float _depth);
     virtual ~BasicObject();
-    virtual void Draw();
+    virtual void Draw(SDL_Renderer &renderer);
     virtual void Update(double &ndt);
 };
 
@@ -26,5 +27,9 @@ public:
     ~Player();
     void Update(double &ndt);
 
-    void Draw();
+    void Draw(SDL_Renderer &renderer);
 };
+
+
+
+    

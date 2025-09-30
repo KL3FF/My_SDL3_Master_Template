@@ -19,7 +19,7 @@ void InstanceHandler::AllDraw(SDL_Renderer &renderer)
 {
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {
-            instance->Draw();
+            instance->Draw(renderer);
         }
     }
 }
@@ -70,3 +70,5 @@ std::string InstanceHandler::CreateUuid() {
     }
     return uuid;
 }
+
+

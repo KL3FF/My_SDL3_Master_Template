@@ -41,6 +41,9 @@ AppWindow::AppWindow()
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         isRunning = false;
     }
+    
+    lastCounter = SDL_GetTicksNS();
+    frameStart = lastCounter;
 }
 
 AppWindow::~AppWindow()

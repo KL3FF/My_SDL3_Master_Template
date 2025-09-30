@@ -32,17 +32,13 @@ int main()
 
     std::cout << "Press ESC to quit\n";
 
-    // BOX TEST
-    float rectX = 0.0f;
-    float rectY = 200.0f;
-    float rectX2 = 0.0f;
-    float rectY2 = 300.0f;
-    float speed = 5.0f;
-
-
+    // ! TEST GUI
+    GuiHandler::AddInstance(new StartGui(0.0f,0.0f,0.0f));
 
     // ! TEST PLAYER
     InstanceHandler::AddInstance(new Player(0.0f,0.0f,0.0f));
+    InstanceHandler::AddInstance(new Player(128.0f,128.0f,0.0f));
+    InstanceHandler::AddInstance(new Player(256.0f,256.0f,0.0f));
 
     while (window.IsRunning())
     {
@@ -62,35 +58,15 @@ int main()
         SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
         SDL_RenderClear(&window.GetRenderer());
         InstanceHandler::AllDraw(window.GetRenderer());
-
-        // ! BOX TEST
-        rectX2 += speed * 1.5 * dt;
-        if (rectX2 > 1640)
-        {
-            rectX2 = -100;
-        }
-        SDL_FRect src2 = {0, 0, 128, 128};
-        SDL_FRect dst2 = {rectX2, rectY2, 128, 128};
-        SDL_RenderTexture(&window.GetRenderer(), TextureManager::GetTexture("test2", "assets/sprites/high/hero/test2.png"), &src2, &dst2);
-
-        // ! BOX TEST
-        rectX += speed * dt;
-        if (rectX > 1640)
-        {
-            rectX = -100;
-        }
-        SDL_FRect src = {0, 0, 128, 128};
-        SDL_FRect dst = {rectX, rectY, 128, 128};
-        SDL_RenderTexture(&window.GetRenderer(), TextureManager::GetTexture("test3", "assets/sprites/high/hero/test3.bmp"), &src, &dst);
-
+        
         // --- Screen Update ---
         SDL_RenderPresent(&window.GetRenderer());
 
-        // --- FPS Limiter ---
-        // window.LimitFPS();
+        // --- FPS Limiter --- 
+        window.LimitFPS();
 
         // --- DeltaTime & show fps ---
-        // window.ShowDeltaTime();
+        window.ShowDeltaTime();
 
         // --- Lazy Loader for Textures ---
         TextureManager::TextureProcessUnload();

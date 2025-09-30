@@ -1,0 +1,1 @@
+add_library(BasicGui STATIC "BasicGui.cpp")

@@ -17,7 +17,7 @@ target_link_libraries(InstanceHandler PRIVATE SDL3_image::SDL3_image)
 
 # -------------- GuiHandler-------------- 
 target_include_directories(GuiHandler PUBLIC "./")
-target_link_libraries(GuiHandler PUBLIC BasicObject)
+target_link_libraries(GuiHandler PUBLIC BasicGui)
 target_link_libraries(GuiHandler PRIVATE SDL3_image::SDL3_image)
 
 
@@ -25,7 +25,7 @@ target_link_libraries(GuiHandler PRIVATE SDL3_image::SDL3_image)
 target_include_directories(TextureHandler PUBLIC "./")
 target_link_libraries(TextureHandler PRIVATE SDL3::SDL3)
 target_link_libraries(TextureHandler PRIVATE SDL3_image::SDL3_image)
-target_link_libraries(TextureHandler PRIVATE WindowConfig)
+target_link_libraries(TextureHandler PUBLIC WindowConfig)
 
 # -------------- AppWindow -------------- 
 target_include_directories(AppWindow PUBLIC "./")
