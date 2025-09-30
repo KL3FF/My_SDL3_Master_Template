@@ -92,6 +92,7 @@ SDL_Texture *TextureManager::GetTextureInternal(const std::string &id, std::vect
     auto it = textures.find(id);
     if (it != textures.end())
     {
+        it->second->SetTTL(maxTTL);
         return it->second->tex;
     }
 

@@ -13,9 +13,9 @@
 struct Texture
 {
     SDL_Texture *tex; // Pointer to SDL texture
-    int ttl = 300;    // Time to live (number of cycles before unloading)
     int width;        // Texture width
     int height;       // Texture height
+    int ttl = 300;    // Time to live (number of cycles before unloading)
     bool persistent;  // If true, texture is never automatically unloaded
 
     // Constructor
