@@ -1,1 +1,1 @@
-target_include_directories(BaseObject PUBLIC "./")
+target_include_directories(BasicObject PUBLIC "./")
