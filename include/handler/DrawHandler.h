@@ -7,6 +7,6 @@ class DrawHandler
 private:
     /* data */
 public:
-    DrawHandler(/* args */);
-    ~DrawHandler();
+    DrawHandler() = delete;
+    ~DrawHandler() = delete;
 };

@@ -1,12 +1,12 @@
 #include "InstanceHandler.h"
 #include "BasicObject.h"
-
+#include <random>
 
 std::unordered_map<std::string, BasicObject*> InstanceHandler::gameInstances;
 
 void InstanceHandler::AllUpdate(double& ndt) 
 {
-    // Schleife über alle gespeicherten Instanzen
+    // loop for all instance
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {
             instance->Update(ndt);
@@ -23,7 +23,7 @@ void InstanceHandler::AllDraw()
     }
 }
 
-// InstanceHandler::AddInstance(new Player());
+
 void InstanceHandler::AddInstance(BasicObject* instance) 
 {
     std::string uuid = CreateUuid();
@@ -56,7 +56,16 @@ void InstanceHandler::RemoveAll()
 }
 
 
-std::string InstanceHandler::CreateUuid() 
-{
+std::string InstanceHandler::CreateUuid() {
+    static std::mt19937 gen{ std::random_device{}() };
+    static std::uniform_int_distribution<> dis(0, 15);
+    std::string uuid;
+    uuid.reserve(32);
 
+    for (int i = 0; i < 32; ++i) {
+        int val = dis(gen);
+        if (val < 10) uuid += ('0' + val);
+        else uuid += ('a' + (val - 10));
+    }
+    return uuid;
 }

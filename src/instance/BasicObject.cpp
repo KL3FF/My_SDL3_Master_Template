@@ -4,7 +4,7 @@
 // ===================== BasicObject =====================
 
 // Konstruktor
-BasicObject::BasicObject(float startX, float startY) : x(startX), y(startY)
+BasicObject::BasicObject(float _x, float _y, float _depth) : x(_x), y(_y), depth(_depth)
 {
     // optional: Initialisierung
 }
@@ -30,8 +30,7 @@ void BasicObject::Update(double &ndt)
 // ===================== Player =====================
 
 // Konstruktor
-Player::Player(float startX, float startY)
-    : BasicObject(startX, startY)
+Player::Player(float _x, float _y, float _depth) : BasicObject(_x, _y, _depth)
 {
 }
 Player::~Player()
@@ -43,11 +42,11 @@ Player::~Player()
 void Player::Update(double &ndt)
 {
     x += 50.0f * ndt; // Beispielbewegung
-    std::cout << "Player Update: x = " << x << "\n";
+    // std::cout << "Player Update: x = " << x << "\n";
 }
 
 // Draw-Funktion
 void Player::Draw()
 {
-    std::cout << "Drawing Player at (" << x << ", " << y << ")\n";
+    // std::cout << "Drawing Player at (" << x << ", " << y << ")\n";
 }

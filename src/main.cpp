@@ -9,7 +9,8 @@
 #include "TextureHandler.h"
 #include "InstanceHandler.h"
 
-int main(int argc, char *argv[])
+//int argc, char *argv[]
+int main()
 {
     init();
 
@@ -35,28 +36,34 @@ int main(int argc, char *argv[])
     float rectY = 200.0f;
     float rectX2 = 0.0f;
     float rectY2 = 300.0f;
-    float speed = 200.0f;
+    float speed = 5.0f;
+
+
+
+    // ! TEST PLAYER
+    InstanceHandler::AddInstance(new Player(0.0f,0.0f,0.0f));
 
     while (window.IsRunning())
     {
         // --- DeltaTime ---
         window.UpdateTime();
-        double dt = window.DeltaTime();
-
+        double dt = window.DeltaTime()*60;
         // --- Event Handling ---
         while (SDL_PollEvent(&event))
         {
             window.HandleEvent(event);
         }
+        // --- Update ---
+        InstanceHandler::AllUpdate(dt);
 
-        // --- Fill Backgroundcolor ---
-        SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
-        SDL_RenderClear(&window.GetRenderer());
 
         // --- Render ---
+         SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
+        SDL_RenderClear(&window.GetRenderer());
+        InstanceHandler::AllDraw();
 
-        // BOX TEST
-        rectX2 += speed * 1.1 * dt;
+        // ! BOX TEST
+        rectX2 += speed * 1.5 * dt;
         if (rectX2 > 1640)
         {
             rectX2 = -100;
@@ -65,7 +72,7 @@ int main(int argc, char *argv[])
         SDL_FRect dst2 = {rectX2, rectY2, 128, 128};
         SDL_RenderTexture(&window.GetRenderer(), TextureManager::GetTexture("test2", "assets/sprites/high/hero/test2.png"), &src2, &dst2);
 
-        // BOX TEST
+        // ! BOX TEST
         rectX += speed * dt;
         if (rectX > 1640)
         {
@@ -79,10 +86,12 @@ int main(int argc, char *argv[])
         SDL_RenderPresent(&window.GetRenderer());
 
         // --- FPS Limiter ---
-        window.LimitFPS();
+        // window.LimitFPS();
 
         // --- DeltaTime & show fps ---
         // window.ShowDeltaTime();
+
+        // --- Lazy Loader for Textures ---
         TextureManager::TextureProcessUnload();
         TextureManager::TextureLazyLoad(window.GetRenderer());
     }
