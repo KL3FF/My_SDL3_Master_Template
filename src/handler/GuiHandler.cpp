@@ -5,7 +5,7 @@
 
 std::unordered_map<std::string, BasicGui*> GuiHandler::gameInstances;
 
-void GuiHandler::AllUpdate(double& ndt) 
+void GuiHandler::AllUpdates(double& ndt) 
 {
     // loop for all instance
     for (auto& [uuid, instance] : gameInstances) {
@@ -15,7 +15,7 @@ void GuiHandler::AllUpdate(double& ndt)
     }
 }
 
-void GuiHandler::AllDraw(SDL_Renderer &renderer) 
+void GuiHandler::AllDraws(SDL_Renderer &renderer) 
 {
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {

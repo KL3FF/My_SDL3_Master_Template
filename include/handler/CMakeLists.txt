@@ -15,6 +15,13 @@ target_link_libraries(InstanceHandler PUBLIC BasicObject)
 target_link_libraries(InstanceHandler PRIVATE SDL3_image::SDL3_image)
 
 
+
+# -------------- EventHandler -------------- 
+target_include_directories(EventHandler PUBLIC "./")
+target_link_libraries(EventHandler PRIVATE SDL3::SDL3)
+
+
+
 # -------------- GuiHandler-------------- 
 target_include_directories(GuiHandler PUBLIC "./")
 target_link_libraries(GuiHandler PUBLIC BasicGui)

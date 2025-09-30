@@ -5,7 +5,7 @@
 
 std::unordered_map<std::string, BasicObject*> InstanceHandler::gameInstances;
 
-void InstanceHandler::AllUpdate(SDL_Renderer &renderer,double& ndt) 
+void InstanceHandler::AllUpdates(SDL_Renderer &renderer,double& ndt) 
 {
     // loop for all instance
     for (auto& [uuid, instance] : gameInstances) {
@@ -15,7 +15,7 @@ void InstanceHandler::AllUpdate(SDL_Renderer &renderer,double& ndt)
     }
 }
 
-void InstanceHandler::AllDraw(SDL_Renderer &renderer) 
+void InstanceHandler::AllDraws(SDL_Renderer &renderer) 
 {
     for (auto& [uuid, instance] : gameInstances) {
         if (instance) {

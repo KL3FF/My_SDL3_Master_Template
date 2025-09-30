@@ -13,8 +13,8 @@ public:
 
     static std::unordered_map<std::string, BasicGui*> gameInstances;
 
-    static void AllUpdate(double& ndt);
-    static void AllDraw(SDL_Renderer &renderer);              
+    static void AllUpdates(double& ndt);
+    static void AllDraws(SDL_Renderer &renderer);              
 
     static void AddInstance(BasicGui* instance);
     static void Remove(BasicGui* instance);

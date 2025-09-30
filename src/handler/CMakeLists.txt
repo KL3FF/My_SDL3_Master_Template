@@ -15,6 +15,12 @@ target_link_libraries(InstanceHandler PRIVATE SDL3_image::SDL3_image)
 
 
 
+# -------------- EventHandler -------------- 
+add_library(EventHandler STATIC "EventHandler.cpp")
+target_link_libraries(EventHandler PRIVATE SDL3::SDL3)
+target_link_libraries(EventHandler PRIVATE AppWindow)
+
+
 # -------------- GuiHandler -------------- 
 add_library(GuiHandler STATIC "GuiHandler.cpp")
 target_link_libraries(GuiHandler PRIVATE SDL3_image::SDL3_image)

@@ -1,7 +1,6 @@
 #pragma once
 #include <SDL3/SDL.h>
 
-
 class AppWindow
 {
 public:
@@ -16,6 +15,7 @@ public:
     void Render();
 
     bool IsRunning() const { return isRunning; }
+    void SetRunning(bool _isRunning);
     double &DeltaTime() { return deltaTime; }
     void UpdateTime();
     void ShowDeltaTime();
@@ -30,7 +30,6 @@ private:
 
     double deltaTime = 0.0;
     double targetFPS = 60.0;
-
 
     SDL_WindowFlags flags = SDL_WINDOW_RESIZABLE;
     bool isRunning = true;

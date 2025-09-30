@@ -8,7 +8,7 @@
 // Konstruktor
 BasicObject::BasicObject(SDL_Renderer &renderer, float _x, float _y, float _depth) : x(_x), y(_y), depth(_depth)
 {
-     std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
+    //  std::cout << "BasicObject Draw at (" << x << ", " << y << ", " << depth << ")\n";
     // optional: Initialisierung
 }
 
@@ -35,7 +35,7 @@ void BasicObject::Draw(SDL_Renderer &renderer)
 // Konstruktor
 Player::Player(SDL_Renderer &renderer, float _x, float _y, float _depth) : BasicObject(renderer,_x, _y, _depth)
 {
-    std::cout << "Player Draw at (" << x << ", " << y << ", " << depth << ")\n";
+    // std::cout << "Player Draw at (" << x << ", " << y << ", " << depth << ")\n";
     TextureManager::AddTextureLazy("test2", "assets/sprites/high/hero/test2.png");
 }
 Player::~Player()

@@ -9,6 +9,7 @@
 #include "TextureHandler.h"
 #include "InstanceHandler.h"
 #include "GuiHandler.h"
+#include "EventHandler.h"
 
 // int argc, char *argv[]
 int main()
@@ -38,20 +39,21 @@ int main()
     InstanceHandler::AddInstance(new Player(window.GetRenderer(), 128.0f, 128.0f, 0.0f));
     InstanceHandler::AddInstance(new Player(window.GetRenderer(), 256.0f, 256.0f, 0.0f));
 
-    SDL_Event event;
+    // SDL_Event event;
     while (window.IsRunning())
     {
         // --- DeltaTime ---
         window.UpdateTime();
-        double dt = window.DeltaTime() * 60;
+       
+        EventHandler::AllScans();
         // --- Event Handling ---
-        while (SDL_PollEvent(&event))
-        {
-            window.HandleEvent(event);
-        }
-        
+        // while (SDL_PollEvent(&event))
+        // {
+        //     window.HandleEvent(event);
+        // }
         // --- Update ---
-        InstanceHandler::AllUpdate(window.GetRenderer(), dt);
+        double dt = window.DeltaTime() * 60;
+        InstanceHandler::AllUpdates(window.GetRenderer(), dt);
 
         // --- Set Backgroudcolor ---
         SDL_SetRenderDrawColor(&window.GetRenderer(), 0, 0, 255, 255);
@@ -60,7 +62,7 @@ int main()
         SDL_RenderClear(&window.GetRenderer());
 
         // --- Draw on Render ---
-        InstanceHandler::AllDraw(window.GetRenderer());
+        InstanceHandler::AllDraws(window.GetRenderer());
 
         // --- Screen Update ---
         SDL_RenderPresent(&window.GetRenderer());

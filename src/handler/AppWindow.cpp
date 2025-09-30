@@ -63,6 +63,10 @@ AppWindow::~AppWindow()
     SDL_Quit();
 }
 
+void AppWindow::SetRunning(bool _isRunning)
+{
+     isRunning = _isRunning;
+}
 
 void AppWindow::HandleEvent(const SDL_Event &event)
 {
@@ -79,8 +83,8 @@ void AppWindow::HandleEvent(const SDL_Event &event)
 
     if (event.type == SDL_EVENT_WINDOW_RESIZED)
     {
-        WindowConfig::setScreenHeight(event.window.data2);
         WindowConfig::setScreenWidth(event.window.data1);
+        WindowConfig::setScreenHeight(event.window.data2);
         std::cout << "Window resized: " << WindowConfig::getScreenWidth() << "x" << WindowConfig::getScreenHeight() << std::endl;
     }
     if (event.type == SDL_EVENT_KEY_DOWN)
