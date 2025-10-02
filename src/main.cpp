@@ -23,7 +23,7 @@ int main()
     // BundleAssetsHandler::PrintAllEntries();
 
     AppWindow window;
-   
+
     TextureManager::InitPlaceholder(window.GetRenderer());
 
     // std::cout << PROJECT_NAME << "\n";
@@ -44,7 +44,7 @@ int main()
     {
         // --- DeltaTime ---
         window.UpdateTime();
-       
+
         EventHandler::AllScans();
         // --- Event Handling ---
         // while (SDL_PollEvent(&event))
@@ -52,6 +52,49 @@ int main()
         //     window.HandleEvent(event);
         // }
         // --- Update ---
+
+        if (EventHandler::MouseCheckPressed(SDL_BUTTON_LEFT))
+        {
+            std::cout << "Pressed Left" << std::endl;
+        }
+
+        if (EventHandler::MouseCheckPressed(SDL_BUTTON_MIDDLE))
+        {
+            std::cout << "Pressed Middel" << std::endl;
+        }
+        if (EventHandler::MouseCheckPressed(SDL_BUTTON_RIGHT))
+        {
+            std::cout << "Pressed Right" << std::endl;
+        }
+
+        if (EventHandler::MouseCheckHeld(SDL_BUTTON_LEFT))
+        {
+            std::cout << "Held Left" << std::endl;
+        }
+        if (EventHandler::MouseCheckHeld(SDL_BUTTON_MIDDLE))
+        {
+            std::cout << "Held Middel" << std::endl;
+        }
+        if (EventHandler::MouseCheckHeld(SDL_BUTTON_RIGHT))
+        {
+            std::cout << "Held Left" << std::endl;
+        }
+
+        if (EventHandler::MouseCheckReleased(SDL_BUTTON_LEFT))
+        {
+            std::cout << "Released Left" << std::endl;
+        }
+        if (EventHandler::MouseCheckReleased(SDL_BUTTON_MIDDLE))
+        {
+            std::cout << "Released Middel" << std::endl;
+        }
+        if (EventHandler::MouseCheckReleased(SDL_BUTTON_RIGHT))
+        {
+            std::cout << "Released Right" << std::endl;
+        }
+
+  
+       
         double dt = window.DeltaTime() * 60;
         InstanceHandler::AllUpdates(window.GetRenderer(), dt);
 
@@ -71,7 +114,7 @@ int main()
         window.LimitFPS();
 
         // --- DeltaTime & show fps ---
-        window.ShowDeltaTime();
+        // window.ShowDeltaTime();
 
         // --- Lazy Loader for Textures ---
         TextureManager::TextureLazyUnloader();
